@@ -1,9 +1,9 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ActivityIndicatorProps } from "react-native";
 import React from "react";
 import { theme } from "../../styles/theme";
 
 interface ButtonProps extends React.ComponentProps<typeof Pressable> {
-  label: string;
+  label?: string | React.Component<ActivityIndicatorProps>;
   bgColor: keyof typeof theme.colors;
   textColor: keyof typeof theme.colors;
   style?: any;
@@ -20,6 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   mt,
   mb,
+  children,
   ...rest
 }) => {
   return (
@@ -35,15 +36,19 @@ export const Button: React.FC<ButtonProps> = ({
       }}
       {...rest}
     >
-      <Text
-        style={{
-          color: theme.colors[textColor],
-          marginHorizontal: "auto",
-          fontSize: 19,
-        }}
-      >
-        {label}
-      </Text>
+      {typeof label === "string" ? (
+        <Text
+          style={{
+            color: theme.colors[textColor],
+            marginHorizontal: "auto",
+            fontSize: 19,
+          }}
+        >
+          {label}
+        </Text>
+      ) : (
+        children
+      )}
     </Pressable>
   );
 };

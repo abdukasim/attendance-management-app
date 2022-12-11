@@ -8,7 +8,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../navigation/types";
 import { login } from "../../../services/auth";
 import LoginInput from "../../../components/form/inputs";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import Checkbox from "../../../components/form/checkbox";
 import { Button } from "../../../components/button";
 
@@ -54,11 +54,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         initialValues={initialValues}
         validationSchema={LoginValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
           login(values, navigation);
         }}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, isSubmitting }) => (
           <>
             <View style={{ marginTop: 64 }}>
               <Field
@@ -87,13 +86,21 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
             <Checkbox />
 
-            <Button
-              label="Sign in"
-              textColor="background"
-              bgColor="primary"
-              mt={50}
-              onPress={() => handleSubmit()}
-            />
+            {!isSubmitting && (
+              <Button
+                label="Sign in"
+                textColor="background"
+                bgColor="primary"
+                mt={50}
+                onPress={() => handleSubmit()}
+              />
+            )}
+
+            {isSubmitting && (
+              <Button textColor="background" bgColor="primary" mt={50}>
+                <ActivityIndicator size="large" color="white" />
+              </Button>
+            )}
           </>
         )}
       </Formik>

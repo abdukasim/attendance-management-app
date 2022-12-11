@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AttendanceScreen() {
   return (
-    <View>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
       <Text>AttendanceScreen</Text>
     </View>
   );

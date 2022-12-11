@@ -24,7 +24,13 @@ export type MainStackScreenProps<Screen extends keyof MainStackParamList> =
 export type LoginScreenParamList = {
   TabOne: undefined;
 };
-export type AdminTabParamList = {};
+export type AdminTabParamList = {
+  Attendance: undefined;
+  Beneficiaries: undefined;
+  Pending: undefined;
+  Visited: undefined;
+  Report: undefined;
+};
 export type RegistrationTabParamList = {};
 export type AttendanceTabParamList = {};
 
