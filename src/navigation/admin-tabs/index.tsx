@@ -2,11 +2,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Component } from "react";
-import AttendanceIcon from "../../../assets/svg/attendance-icon";
-import PendingIcon from "../../../assets/svg/pending-icon";
-import ReportIcon from "../../../assets/svg/report-icon";
-import StarIcon from "../../../assets/svg/star-icon";
-import VisitedIcon from "../../../assets/svg/visited-icon";
+import {
+  AttendanceIcon,
+  PendingIcon,
+  ReportIcon,
+  StarIcon,
+  VisitedIcon,
+} from "../../../assets/svg/icons";
 import {
   BeneficiariesListScreen,
   PendingListScreen,
