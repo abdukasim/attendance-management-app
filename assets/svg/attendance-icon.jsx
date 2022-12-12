@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Mask, Path, G } from "react-native-svg";
 
-function AttendanceIcon(props) {
+export function AttendanceIcon(props) {
   return (
     <Svg
       width={25}
@@ -31,5 +31,3 @@ function AttendanceIcon(props) {
     </Svg>
   );
 }
-
-export default AttendanceIcon;

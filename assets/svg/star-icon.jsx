@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Mask, Path, G } from "react-native-svg";
 
-function StarIcon(props) {
+export function StarIcon(props) {
   return (
     <Svg
       width={19.598877}
@@ -31,5 +31,3 @@ function StarIcon(props) {
     </Svg>
   );
 }
-
-export default StarIcon;

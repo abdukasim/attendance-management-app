@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-function ViewPassword(props) {
+export function ViewPassword(props) {
   return (
     <Svg
       width={18.36377}
@@ -19,5 +19,3 @@ function ViewPassword(props) {
     </Svg>
   );
 }
-
-export default ViewPassword;

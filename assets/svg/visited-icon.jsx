@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Mask, Path, G } from "react-native-svg";
 
-function VisitedIcon(props) {
+export function VisitedIcon(props) {
   return (
     <Svg
       width={20}
@@ -31,5 +31,3 @@ function VisitedIcon(props) {
     </Svg>
   );
 }
-
-export default VisitedIcon;

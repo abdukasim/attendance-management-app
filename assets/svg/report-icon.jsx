@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Mask, Path, G } from "react-native-svg";
 
-function ReportIcon(props) {
+export function ReportIcon(props) {
   return (
     <Svg
       width={18}
@@ -31,5 +31,3 @@ function ReportIcon(props) {
     </Svg>
   );
 }
-
-export default ReportIcon;
