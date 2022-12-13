@@ -35,19 +35,19 @@ export default function Stats() {
 
   return (
     <View style={styles.cardsContainer}>
-      <Card>
+      <Card width={118} height={113}>
         <Text variant="title" color="primary">
           {presentAttendees}
         </Text>
         <View style={styles.label}>
           <Entypo name="switch" size={15} color={theme.colors.primary} />
-          <Text variant="body" color="primary" ml={2}>
+          <Text variant="body" color="primary" ml={4}>
             Present
           </Text>
         </View>
       </Card>
 
-      <Card>
+      <Card width={118} height={113}>
         <Text variant="title" color="primary">
           {servedMeals}
         </Text>
@@ -57,19 +57,19 @@ export default function Stats() {
             size={15}
             color={theme.colors.primary}
           />
-          <Text variant="body" color="primary" ml={2}>
+          <Text variant="body" color="primary" ml={4}>
             Served Meals
           </Text>
         </View>
       </Card>
 
-      <Card>
+      <Card width={118} height={113}>
         <Text variant="title" color="primary">
           {beneficiaries}
         </Text>
         <View style={styles.label}>
           <AntDesign name="appstore1" size={15} color={theme.colors.primary} />
-          <Text variant="body" color="primary" ml={2}>
+          <Text variant="body" color="primary" ml={4}>
             Total
           </Text>
         </View>

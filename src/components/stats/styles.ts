@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { horizontalScale, verticalScale } from "../../helpers/metrics";
 
 export const styles = StyleSheet.create({
   cardsContainer: {
     width: "100%",
     height: "auto",
-    paddingHorizontal: 10,
-    marginTop: 20,
+    paddingHorizontal: horizontalScale(30),
+    marginTop: verticalScale(20),
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -15,6 +16,6 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 18,
+    marginTop: verticalScale(18),
   },
 });

@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
+import { horizontalScale, verticalScale } from "../../helpers/metrics";
 import { theme } from "../../styles/theme";
 
 interface BoxProps extends React.ComponentProps<typeof View> {
@@ -36,15 +37,15 @@ export const Box: React.FC<BoxProps> = ({
     <View
       style={{
         margin: theme.spacing[margin!],
-        marginTop: mt,
-        marginBottom: mb,
-        marginRight: mr,
-        marginLeft: ml,
+        marginTop: mt && verticalScale(mt),
+        marginBottom: mb && verticalScale(mb),
+        marginRight: mr && horizontalScale(mr),
+        marginLeft: ml && horizontalScale(ml),
         padding: theme.spacing[padding!],
-        paddingTop: pt,
-        paddingBottom: pb,
-        paddingRight: pr,
-        paddingLeft: pl,
+        paddingTop: pt && verticalScale(pt),
+        paddingBottom: pb && verticalScale(pb),
+        paddingRight: pr && horizontalScale(pr),
+        paddingLeft: pl && horizontalScale(pl),
         backgroundColor: theme.colors[backgroundColor!],
         ...style,
       }}
