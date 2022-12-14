@@ -5,3 +5,4 @@ export { StarIcon } from "./star-icon";
 export { ViewPassword } from "./view-password";
 export { VisitedIcon } from "./visited-icon";
 export { PresentIcon } from "./present-icon";
+export { LogoWatermark } from "./logo-watermark";

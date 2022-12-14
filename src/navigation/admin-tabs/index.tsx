@@ -50,6 +50,7 @@ export default function AdminTabs({ navigation }: AdminScreenProps) {
             paddingTop: 28,
             paddingBottom: 28,
             height: 96,
+            position: "absolute",
           },
           //   headerRight: () => <Logout />,
         })}
