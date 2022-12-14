@@ -16,6 +16,11 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: verticalScale(18),
+    marginTop: verticalScale(17),
+  },
+  cardFlexStyles: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

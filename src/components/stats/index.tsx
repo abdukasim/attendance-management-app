@@ -35,7 +35,12 @@ export default function Stats() {
 
   return (
     <View style={styles.cardsContainer}>
-      <Card width={118} height={113}>
+      <Card
+        borderRadius={20}
+        width={118}
+        height={113}
+        style={styles.cardFlexStyles}
+      >
         <Text variant="title" color="primary">
           {presentAttendees}
         </Text>
@@ -47,7 +52,12 @@ export default function Stats() {
         </View>
       </Card>
 
-      <Card width={118} height={113}>
+      <Card
+        borderRadius={20}
+        width={118}
+        height={113}
+        style={styles.cardFlexStyles}
+      >
         <Text variant="title" color="primary">
           {servedMeals}
         </Text>
@@ -63,7 +73,12 @@ export default function Stats() {
         </View>
       </Card>
 
-      <Card width={118} height={113}>
+      <Card
+        borderRadius={20}
+        width={118}
+        height={113}
+        style={styles.cardFlexStyles}
+      >
         <Text variant="title" color="primary">
           {beneficiaries}
         </Text>
