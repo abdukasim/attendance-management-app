@@ -4,10 +4,6 @@ import { theme } from "../../styles/theme";
 
 export const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: theme.spacing.xl,
     backgroundColor: theme.colors.background,
     shadowColor: theme.colors.foreground,
     shadowOpacity: 0.16,
