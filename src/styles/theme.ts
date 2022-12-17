@@ -1,3 +1,5 @@
+import { moderateScale } from "../helpers/metrics";
+
 const palette = {
   blue: "#0B77C2",
   yellow: "#FFF38D",
@@ -31,32 +33,32 @@ export const theme = {
     title: {
       fontFamily: "Articulat CF",
       fontWeight: "700",
-      fontSize: 36,
+      fontSize: moderateScale(36),
     },
     subtitle: {
       fontFamily: "Articulat CF",
       fontWeight: "700",
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     headerLg: {
       fontFamily: "Articulat CF",
       fontWeight: "600",
-      fontSize: 24,
+      fontSize: moderateScale(24),
     },
     headerMd: {
       fontFamily: "Articulat CF",
       fontWeight: "600",
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     headerSm: {
       fontFamily: "Articulat CF",
       fontWeight: "500",
-      fontSize: 12,
+      fontSize: moderateScale(12),
     },
     body: {
       fontFamily: "Articulat CF",
       fontWeight: "400",
-      fontSize: 10,
+      fontSize: moderateScale(10),
     },
   },
 };
