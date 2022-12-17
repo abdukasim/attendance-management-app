@@ -1,7 +1,8 @@
 import { AntDesign } from "@expo/vector-icons";
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { FlatList, Pressable, SafeAreaView, View } from "react-native";
 import { LogoWatermark } from "../../../assets/svg/logo-watermark";
+import { useModalStore } from "../../store/modal-store";
 import { Card } from "../card";
 import { Text } from "../text";
 import { styles } from "./styles";
@@ -11,14 +12,23 @@ interface ListProps {
 }
 
 export const List: React.FC<ListProps> = ({ data }) => {
+  const [selectedID, setSelectedID] = useState("");
+  const modalStore = useModalStore((state) => state);
+
   const ListItem = ({ item }: any) => (
-    <Pressable onPress={() => console.log("pressed")}>
+    <Pressable
+      onPress={() => {
+        modalStore.attendance.show(item);
+        setSelectedID(item.id);
+      }}
+    >
       <Card
         width={368}
         height={66}
         px={20}
         mb={10}
         borderRadius={13}
+        bgColor={selectedID === item.id ? "secondary" : "background"}
         style={styles.cardFlexStyles}
       >
         <View>

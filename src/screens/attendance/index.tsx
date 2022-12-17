@@ -1,34 +1,30 @@
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Stats from "../../components/stats";
 import { SearchBar } from "../../components/searchBar";
 import { List } from "../../components/list";
 import url from "../../helpers/url";
 import useSearch from "../../hooks/useSearch";
+import { AttendanceModal } from "../../components/modals/attendance-modal";
+import { useModalStore } from "../../store/modal-store";
+import { fetchAttendanceList } from "../../services/attendance";
 
 export default function AttendanceScreen() {
   // const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [attendanceList, setAttendanceList] = useState([]);
 
+  const modalStore = useModalStore((state) => state);
+
   const [search, filteredDataSource, searchFilterFunction] =
     useSearch(attendanceList);
 
-  const fetchAttendanceList = async () => {
-    try {
-      const res = await url.get("/api/attendance/client");
-      setAttendanceList(res.data.list);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    fetchAttendanceList();
+    fetchAttendanceList(setAttendanceList);
   }, []);
 
   return (
-    <View style={{ backgroundColor: "white", height: "100%" }}>
+    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <Stats />
       <SearchBar
         clicked={clicked}
@@ -37,6 +33,7 @@ export default function AttendanceScreen() {
         setSearchPhrase={searchFilterFunction}
       />
       <List data={filteredDataSource} />
-    </View>
+      {modalStore.attendance.isShow && <AttendanceModal />}
+    </SafeAreaView>
   );
 }
