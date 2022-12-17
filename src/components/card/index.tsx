@@ -15,7 +15,7 @@ interface CardProps {
   mb?: number;
   width?: number;
   height?: number;
-  backgroundColor?: keyof typeof theme.colors;
+  bgColor?: keyof typeof theme.colors;
   borderRadius?: number;
   style?: StyleProp<ViewStyle> & object;
 }
@@ -27,6 +27,7 @@ export function Card({
   width,
   height,
   children,
+  bgColor,
   borderRadius,
   style,
 }: CardProps) {
@@ -41,6 +42,7 @@ export function Card({
           width: width && horizontalScale(width),
           height: height && verticalScale(height),
           borderRadius: borderRadius && moderateScale(borderRadius),
+          backgroundColor: bgColor && theme.colors[bgColor],
           ...style,
         },
       ]}

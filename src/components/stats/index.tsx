@@ -39,6 +39,7 @@ export default function Stats() {
         borderRadius={20}
         width={118}
         height={113}
+        bgColor="background"
         style={styles.cardFlexStyles}
       >
         <Text variant="title" color="primary">
@@ -56,6 +57,7 @@ export default function Stats() {
         borderRadius={20}
         width={118}
         height={113}
+        bgColor="background"
         style={styles.cardFlexStyles}
       >
         <Text variant="title" color="primary">
@@ -77,6 +79,7 @@ export default function Stats() {
         borderRadius={20}
         width={118}
         height={113}
+        bgColor="background"
         style={styles.cardFlexStyles}
       >
         <Text variant="title" color="primary">

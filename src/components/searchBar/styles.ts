@@ -8,7 +8,7 @@ import { theme } from "../../styles/theme";
 
 export const styles = StyleSheet.create({
   container: {
-    zIndex: 50,
+    zIndex: 10,
     marginHorizontal: horizontalScale(30),
     marginTop: verticalScale(12),
     justifyContent: "center",

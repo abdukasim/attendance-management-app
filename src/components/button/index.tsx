@@ -1,6 +1,7 @@
 import { View, Text, Pressable, ActivityIndicatorProps } from "react-native";
 import React from "react";
 import { theme } from "../../styles/theme";
+import { verticalScale } from "../../helpers/metrics";
 
 interface ButtonProps extends React.ComponentProps<typeof Pressable> {
   label?: string | React.Component<ActivityIndicatorProps>;
@@ -27,11 +28,12 @@ export const Button: React.FC<ButtonProps> = ({
     <Pressable
       style={{
         backgroundColor: theme.colors[bgColor],
-        marginTop: mt,
+        marginTop: mt && verticalScale(mt),
+        marginBottom: mb && verticalScale(mb),
         borderRadius: 30.01,
         display: "flex",
         alignItems: "center",
-        paddingVertical: 12,
+        paddingVertical: verticalScale(12),
         ...style,
       }}
       {...rest}
