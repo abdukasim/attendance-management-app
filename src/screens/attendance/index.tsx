@@ -8,9 +8,9 @@ import useSearch from "../../hooks/useSearch";
 import { AttendanceModal } from "../../components/modals/attendance-modal";
 import { useModalStore } from "../../store/modal-store";
 import { fetchAttendanceList } from "../../services/attendance";
+import { styles } from "./styles";
 
 export default function AttendanceScreen() {
-  // const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [attendanceList, setAttendanceList] = useState([]);
 
@@ -24,7 +24,7 @@ export default function AttendanceScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
+    <SafeAreaView style={styles.container}>
       <Stats />
       <SearchBar
         clicked={clicked}
