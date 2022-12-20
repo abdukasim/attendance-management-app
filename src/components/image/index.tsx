@@ -8,8 +8,8 @@ import {
 
 interface ImgProps extends React.ComponentProps<typeof _Image> {
   source: ImageSourcePropType;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   resizeMode?: ImageResizeMode;
 }
 
