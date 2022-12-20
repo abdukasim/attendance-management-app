@@ -9,22 +9,23 @@ import { styles } from "./styles";
 
 interface ListProps {
   data: any;
+  parent: "attendance" | "pending";
 }
 
-export const List: React.FC<ListProps> = ({ data }) => {
+export const List: React.FC<ListProps> = ({ data, parent }) => {
   const [selectedID, setSelectedID] = useState("");
   const modalStore = useModalStore((state) => state);
 
   const ListItem = ({ item }: any) => (
     <Pressable
       onPress={() => {
-        modalStore.attendance.show(item);
+        modalStore[parent].show(item);
         setSelectedID(item.id);
       }}
     >
       <Card
         width={368}
-        height={66}
+        height={75}
         px={20}
         mb={10}
         borderRadius={13}
@@ -33,7 +34,14 @@ export const List: React.FC<ListProps> = ({ data }) => {
       >
         <View>
           <Text variant="subtitle">{item.name}</Text>
-          <Text variant="body">{item.muntahaID}</Text>
+          {item.muntahaID ? (
+            <Text variant="body">{item.muntahaID}</Text>
+          ) : (
+            <>
+              <Text variant="body">{item.address}</Text>
+              <Text variant="body">{item.phone}</Text>
+            </>
+          )}
         </View>
         <AntDesign name="right" size={24} color="black" />
       </Card>

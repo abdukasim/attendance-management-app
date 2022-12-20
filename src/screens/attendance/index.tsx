@@ -32,7 +32,7 @@ export default function AttendanceScreen() {
         searchPhrase={search}
         setSearchPhrase={searchFilterFunction}
       />
-      <List data={filteredDataSource} />
+      <List data={filteredDataSource} parent="attendance" />
       {modalStore.attendance.isShow && <AttendanceModal />}
     </SafeAreaView>
   );
