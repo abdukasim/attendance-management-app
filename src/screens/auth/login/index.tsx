@@ -7,10 +7,11 @@ import { Field, Formik } from "formik";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../navigation/types";
 import { login } from "../../../services/auth";
-import LoginInput from "../../../components/form/inputs";
+import Input from "../../../components/form/inputs";
 import { ActivityIndicator, View } from "react-native";
 import Checkbox from "../../../components/form/checkbox";
 import { Button } from "../../../components/button";
+import { styles } from "./styles";
 
 type LoginScreenProps = NativeStackScreenProps<MainStackParamList, "Login">;
 
@@ -54,6 +55,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         initialValues={initialValues}
         validationSchema={LoginValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
+          console.log("====================================");
+          console.log(values);
+          console.log("====================================");
           login(values, navigation);
         }}
       >
@@ -61,7 +65,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           <>
             <View style={{ marginTop: 64 }}>
               <Field
-                component={LoginInput}
+                component={Input}
                 label="Username"
                 name="username"
                 placeholder="Abc124@example.com"
@@ -70,10 +74,11 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   passwordRef.current && passwordRef.current.focus();
                 }}
                 blurOnSubmit={false}
+                style={styles.input}
               />
               <Field
                 innerRef={(el: any) => (passwordRef.current = el)}
-                component={LoginInput}
+                component={Input}
                 label="Password"
                 name="password"
                 placeholder="•••••••••"
@@ -81,6 +86,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                 secureTextEntry={hidPassword}
                 setHidePassword={setHidPassword}
                 onSubmitEditing={() => handleSubmit()}
+                style={styles.input}
               />
             </View>
 

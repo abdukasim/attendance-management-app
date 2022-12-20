@@ -3,34 +3,36 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FieldInputProps, FormikProps } from "formik";
 import { Text } from "../../text";
 import { styles } from "./styles";
-import { TextInput, TouchableOpacity, View } from "react-native";
+import { StyleProp, TextInput, TouchableOpacity, View } from "react-native";
 
-interface LoginInputProps {
+interface InputProps extends React.ComponentProps<typeof TextInput> {
   label: string;
   placeholder: string;
   type?: string;
   innerRef?: React.MutableRefObject<null>;
   field: FieldInputProps<string>;
   form: FormikProps<any>;
+  style?: any;
 }
 
-export default function LoginInput({
+export default function Input({
   label,
   placeholder,
   type,
   innerRef,
   field: { name, onBlur, onChange, value },
   form: { errors, touched, setFieldTouched },
+  style,
   ...props
-}: LoginInputProps) {
+}: InputProps) {
   const hasError: boolean | any = errors.name && touched.name;
 
   return (
     <View style={{ position: "relative" }}>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         placeholder={placeholder}
-        style={[styles.input, hasError && styles.errorInput]}
+        style={[style, hasError && styles.errorInput]}
         value={value}
         onChangeText={(text) => onChange(name)(text)}
         onBlur={() => {
