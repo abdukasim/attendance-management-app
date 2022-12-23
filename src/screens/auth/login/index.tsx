@@ -27,7 +27,8 @@ interface LoginFormValues {
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [hidPassword, setHidPassword] = useState(true);
+  const [hidePassword, setHidePassword] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const initialValues: LoginFormValues = {
     username: "",
@@ -55,10 +56,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         initialValues={initialValues}
         validationSchema={LoginValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("====================================");
-          console.log(values);
-          console.log("====================================");
-          login(values, navigation);
+          login(values, navigation, setErrorMessage, setSubmitting);
         }}
       >
         {({ handleSubmit, isSubmitting }) => (
@@ -83,8 +81,8 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                 name="password"
                 placeholder="•••••••••"
                 type="password"
-                secureTextEntry={hidPassword}
-                setHidePassword={setHidPassword}
+                secureTextEntry={hidePassword}
+                setHidePassword={setHidePassword}
                 onSubmitEditing={() => handleSubmit()}
                 style={styles.input}
               />
@@ -94,6 +92,8 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
             {!isSubmitting && (
               <Button
+                borderRadius={30}
+                pv={12}
                 label="Sign in"
                 textColor="background"
                 bgColor="primary"
@@ -103,10 +103,27 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             )}
 
             {isSubmitting && (
-              <Button textColor="background" bgColor="primary" mt={50}>
+              <Button
+                borderRadius={30}
+                pv={12}
+                textColor="background"
+                bgColor="primary"
+                mt={50}
+              >
                 <ActivityIndicator size="large" color="white" />
               </Button>
             )}
+
+            <Text
+              variant="headerSm"
+              color="failure"
+              style={{
+                textAlign: "center",
+              }}
+              mt={10}
+            >
+              {errorMessage}
+            </Text>
           </>
         )}
       </Formik>
