@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+
+//components
 import { FontAwesome } from "@expo/vector-icons";
-import { FieldInputProps, FormikProps } from "formik";
 import { Text } from "../../text";
-import { styles } from "./styles";
 import { StyleProp, TextInput, TouchableOpacity, View } from "react-native";
+
+//styles
+import { styles } from "./styles";
+
+//libs
+import { FieldInputProps, FormikErrors, FormikProps } from "formik";
 
 interface InputProps extends React.ComponentProps<typeof TextInput> {
   label: string;
@@ -13,6 +19,8 @@ interface InputProps extends React.ComponentProps<typeof TextInput> {
   field: FieldInputProps<string>;
   form: FormikProps<any>;
   style?: any;
+  hidePassword?: any;
+  setHidePassword?: any;
 }
 
 export default function Input({
@@ -23,12 +31,14 @@ export default function Input({
   field: { name, onBlur, onChange, value },
   form: { errors, touched, setFieldTouched },
   style,
+  hidePassword,
+  setHidePassword,
   ...props
 }: InputProps) {
-  const hasError: boolean | any = errors.name && touched.name;
+  const hasError: boolean | any = errors[name] && touched[name];
 
   return (
-    <View style={{ position: "relative" }}>
+    <View style={[styles.container, hasError && { marginBottom: 12 }]}>
       {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         placeholder={placeholder}
@@ -42,8 +52,16 @@ export default function Input({
         {...props}
         ref={innerRef}
       />
+      {hasError && (
+        <Text color="failure" variant="body" ml={10}>
+          {errors[name] as string}
+        </Text>
+      )}
       {type === "password" && (
-        <TouchableOpacity style={styles.rightIcon}>
+        <TouchableOpacity
+          style={styles.rightIcon}
+          onPress={() => setHidePassword(!hidePassword)}
+        >
           <FontAwesome size={25} color="#e6e6e6" name="eye-slash" />
         </TouchableOpacity>
       )}
