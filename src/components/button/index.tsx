@@ -1,26 +1,40 @@
-import { View, Text, Pressable, ActivityIndicatorProps } from "react-native";
 import React from "react";
+
+//components
+import { View, Text, Pressable, ActivityIndicatorProps } from "react-native";
+
+//styles
 import { theme } from "../../styles/theme";
-import { verticalScale } from "../../helpers/metrics";
+
+//libs
+import { horizontalScale, verticalScale } from "../../helpers/metrics";
 
 interface ButtonProps extends React.ComponentProps<typeof Pressable> {
   label?: string | React.Component<ActivityIndicatorProps>;
   bgColor: keyof typeof theme.colors;
   textColor: keyof typeof theme.colors;
+  borderRadius?: number;
+  width?: number;
+  height?: number;
   style?: any;
   mt?: number;
   mb?: number;
   mr?: number;
   ml?: number;
+  pv?: number;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   label,
   bgColor,
   textColor,
+  borderRadius,
+  width,
+  height,
   style,
   mt,
   mb,
+  pv,
   children,
   ...rest
 }) => {
@@ -30,10 +44,12 @@ export const Button: React.FC<ButtonProps> = ({
         backgroundColor: theme.colors[bgColor],
         marginTop: mt && verticalScale(mt),
         marginBottom: mb && verticalScale(mb),
-        borderRadius: 30.01,
+        borderRadius: borderRadius,
         display: "flex",
         alignItems: "center",
-        paddingVertical: verticalScale(12),
+        width: width && horizontalScale(width),
+        height: height && verticalScale(height),
+        paddingVertical: pv && verticalScale(pv),
         ...style,
       }}
       {...rest}

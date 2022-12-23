@@ -36,6 +36,8 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           {modaleStore.attendance.attendeeData.muntahaID}
         </Text>
         <Button
+          borderRadius={30}
+          pv={12}
           bgColor="secondary"
           textColor="foreground"
           label="Present"
@@ -43,6 +45,8 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           onPress={() => presentAttendee()}
         />
         <Button
+          borderRadius={30}
+          pv={12}
           bgColor="background"
           textColor="foreground"
           label="Permission"

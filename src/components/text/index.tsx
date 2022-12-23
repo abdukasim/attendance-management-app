@@ -13,6 +13,11 @@ interface TextProps extends React.ComponentProps<typeof RNText> {
   ml?: number;
 }
 
+/**
+ * # Text
+ * @param param0 variant color style mt mb mr ml
+ * @returns custom Text React component
+ */
 export const Text: React.FC<TextProps> = ({
   style,
   variant,

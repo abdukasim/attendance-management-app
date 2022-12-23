@@ -9,6 +9,7 @@ import {
   StarIcon,
   VisitedIcon,
 } from "../../../assets/svg/icons";
+import { moderateScale, verticalScale } from "../../helpers/metrics";
 import {
   BeneficiariesListScreen,
   PendingListScreen,
@@ -45,11 +46,11 @@ export default function AdminTabs({ navigation }: AdminScreenProps) {
           tabBarActiveTintColor: theme.colors.primary,
           tabBarInactiveTintColor: theme.colors.foreground,
           tabBarStyle: {
-            borderTopLeftRadius: 35,
-            borderTopRightRadius: 35,
-            paddingTop: 28,
-            paddingBottom: 28,
-            height: 96,
+            borderTopLeftRadius: moderateScale(35),
+            borderTopRightRadius: moderateScale(35),
+            paddingTop: verticalScale(28),
+            paddingBottom: verticalScale(28),
+            height: verticalScale(96),
             position: "absolute",
           },
           //   headerRight: () => <Logout />,

@@ -5,12 +5,12 @@ export const styles = StyleSheet.create({
   imageContainer: {
     elevation: 2,
     height: horizontalScale(174),
-    width: verticalScale(314),
+    width: "100%",
     backgroundColor: "#efefef",
     position: "relative",
     borderRadius: 16,
     overflow: "hidden",
-    marginBottom: 20,
+    marginBottom: 16,
   },
   uploadBtnContainer: {
     opacity: 0.9,

@@ -3,17 +3,9 @@ import { horizontalScale, verticalScale } from "../../../helpers/metrics";
 import { theme } from "../../../styles/theme";
 
 export const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-    zIndex: 20,
-  },
   backdrop: {
     display: "flex",
+    flex: 1,
     position: "absolute",
     backgroundColor: theme.colors.foreground,
     opacity: 0.2,
@@ -25,8 +17,10 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   card: {
-    zIndex: 50,
+    marginTop: verticalScale(72),
+    display: "flex",
     justifyContent: "center",
+    alignSelf: "center",
   },
   input: {
     width: "100%",
@@ -40,7 +34,27 @@ export const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 10,
     borderRadius: 24,
+    borderColor: theme.colors.background,
     paddingVertical: verticalScale(16),
     paddingHorizontal: horizontalScale(28),
+    marginBottom: verticalScale(12),
+  },
+  errorInput: {
+    borderColor: "red",
+    borderWidth: 1,
+    marginBottom: verticalScale(6),
+  },
+  errorText: {
+    fontSize: 10,
+    color: "red",
+  },
+  childrenBtnContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 8,
+  },
+  childrenBtn: {
+    justifyContent: "center",
   },
 });
