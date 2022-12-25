@@ -13,26 +13,28 @@ import { styles } from "./styles";
 import { useModalStore } from "../../../store/modal-store";
 import useSearch from "../../../hooks/useSearch";
 import { useFocusEffect } from "@react-navigation/native";
+import { useListStore } from "../../../store/list-store";
 
 //services
-import { fetchPendingList } from "../../../services/pending";
+import { fetchList } from "../../../services/list";
 
 export function PendingListScreen() {
   const [clicked, setClicked] = useState(false);
-  const [pendingList, setPendingList] = useState([]);
 
   const modalStore = useModalStore((state) => state);
+  const listStore = useListStore((state) => state.pending);
 
-  const [search, filteredDataSource, searchFilterFunction] =
-    useSearch(pendingList);
+  const [search, filteredDataSource, searchFilterFunction] = useSearch(
+    listStore.listData
+  );
 
   useEffect(() => {
-    fetchPendingList(setPendingList);
+    fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchPendingList(setPendingList);
+      fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
 
