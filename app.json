@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.abdu2022.attendancemanagementapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "55ce2d6c-2f42-4862-b919-7c5270fc2481"
+      }
     }
   }
 }
