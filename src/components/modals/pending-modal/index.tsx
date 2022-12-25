@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //components
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, ActivityIndicator } from "react-native";
 import { Card } from "../../card";
 import { Text } from "../../text";
 import { Button } from "../../button";
@@ -23,6 +23,9 @@ import { theme } from "../../../styles/theme";
 import { Field, Formik, FieldArray } from "formik";
 import * as yup from "yup";
 
+//services
+import { handlePendingListForm } from "../../../services/pending";
+
 const PendingListValidationSchema = yup.object().shape({
   age: yup
     .number()
@@ -35,6 +38,12 @@ const PendingListValidationSchema = yup.object().shape({
 
 export default function PendingModal() {
   const modaleStore = useModalStore((state) => state);
+
+  const [message, setMessage] = useState({
+    text: "",
+    type: "",
+  });
+
   const [shelterStatusOptions, setShelterStatusOptions] = useState([
     { label: "Rent", value: "rent" },
     { label: "Private", value: "private" },
@@ -94,8 +103,15 @@ export default function PendingModal() {
             }}
             validationSchema={PendingListValidationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              // handleWaitingListForm(values, setSubmitting);
-              console.log(values);
+              handlePendingListForm(values, setSubmitting, setMessage);
+              setTimeout(() => {
+                modaleStore.pending.hide();
+                setMessage({
+                  text: "",
+                  type: "",
+                });
+              }, 2000);
+              // console.log(values);
             }}
           >
             {({
@@ -124,8 +140,10 @@ export default function PendingModal() {
                   placeholderTextColor={theme.colors.foreground}
                   // blurOnSubmit={false}
                   style={styles.input}
+                  keyboardType="numeric"
                 />
                 <DropDownPicker
+                  listMode="SCROLLVIEW"
                   zIndex={3000}
                   zIndexInverse={1000}
                   placeholder="Shelter Status"
@@ -152,6 +170,7 @@ export default function PendingModal() {
                   </Text>
                 )}
                 <DropDownPicker
+                  listMode="SCROLLVIEW"
                   zIndex={2000}
                   zIndexInverse={2000}
                   placeholder="Marital Status"
@@ -265,16 +284,40 @@ export default function PendingModal() {
                   style={styles.input}
                 />
 
-                <Button
-                  label="Register"
-                  textColor="background"
-                  bgColor="primary"
-                  mt={50}
-                  pv={12}
-                  borderRadius={30}
-                  style={{ width: "100%" }}
-                  onPress={() => handleSubmit()}
-                />
+                {!isSubmitting && (
+                  <Button
+                    label="Register"
+                    textColor="background"
+                    bgColor="primary"
+                    mt={50}
+                    pv={12}
+                    borderRadius={30}
+                    style={{ width: "100%" }}
+                    onPress={() => handleSubmit()}
+                  />
+                )}
+                {isSubmitting && (
+                  <Button
+                    borderRadius={30}
+                    pv={12}
+                    textColor="background"
+                    bgColor="primary"
+                    mt={50}
+                    style={{ width: "100%" }}
+                  >
+                    <ActivityIndicator size="large" color="white" />
+                  </Button>
+                )}
+                <Text
+                  variant="headerSm"
+                  color={message.type === "ERROR" ? "failure" : "success"}
+                  style={{
+                    textAlign: "center",
+                  }}
+                  mt={10}
+                >
+                  {message.text}
+                </Text>
               </>
             )}
           </Formik>
