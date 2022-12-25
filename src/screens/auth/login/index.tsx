@@ -12,6 +12,7 @@ import { ActivityIndicator, View } from "react-native";
 import Checkbox from "../../../components/form/checkbox";
 import { Button } from "../../../components/button";
 import { styles } from "./styles";
+import KeyboardAvoidingWrapper from "../../../components/keyboard-avoiding-wrapper";
 
 type LoginScreenProps = NativeStackScreenProps<MainStackParamList, "Login">;
 
@@ -36,97 +37,94 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <Box mr={48} ml={48} style={{ flex: 1, justifyContent: "center" }}>
-      <Img
-        resizeMode="contain"
-        source={require("../../../../assets/images/logoBlue.png")}
-        width={170}
-        height={90}
-      />
-      <Text
-        variant="title"
-        color="primary"
-        mt={90}
-        style={{ textAlign: "center" }}
-      >
-        LogIn
-      </Text>
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={LoginValidationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          login(values, navigation, setErrorMessage, setSubmitting);
-        }}
-      >
-        {({ handleSubmit, isSubmitting }) => (
-          <>
-            <View style={{ marginTop: 64 }}>
-              <Field
-                component={Input}
-                label="Username"
-                name="username"
-                placeholder="Abc124@example.com"
-                autoFocus={true}
-                onSubmitEditing={() => {
-                  passwordRef.current && passwordRef.current.focus();
+    <KeyboardAvoidingWrapper>
+      <Box mr={48} ml={48} mt={110} style={{ height: "100%" }}>
+        <Img
+          resizeMode="contain"
+          source={require("../../../../assets/images/logoBlue.png")}
+          width={170}
+          height={90}
+        />
+        <Text
+          variant="title"
+          color="primary"
+          mt={90}
+          style={{ textAlign: "center" }}
+        >
+          LogIn
+        </Text>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={LoginValidationSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            login(values, navigation, setErrorMessage, setSubmitting);
+          }}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <>
+              <View style={{ marginTop: 64 }}>
+                <Field
+                  component={Input}
+                  label="Username"
+                  name="username"
+                  placeholder="Abc124@example.com"
+                  autoFocus={true}
+                  onSubmitEditing={() => {
+                    passwordRef.current && passwordRef.current.focus();
+                  }}
+                  blurOnSubmit={false}
+                  style={styles.input}
+                />
+                <Field
+                  innerRef={(el: any) => (passwordRef.current = el)}
+                  component={Input}
+                  label="Password"
+                  name="password"
+                  placeholder="•••••••••"
+                  type="password"
+                  secureTextEntry={hidePassword}
+                  setHidePassword={setHidePassword}
+                  onSubmitEditing={() => handleSubmit()}
+                  style={styles.input}
+                />
+              </View>
+              <Checkbox />
+              {!isSubmitting && (
+                <Button
+                  borderRadius={30}
+                  pv={12}
+                  label="Sign in"
+                  textColor="background"
+                  bgColor="primary"
+                  mt={50}
+                  onPress={() => handleSubmit()}
+                />
+              )}
+              {isSubmitting && (
+                <Button
+                  borderRadius={30}
+                  pv={12}
+                  textColor="background"
+                  bgColor="primary"
+                  mt={50}
+                >
+                  <ActivityIndicator size="large" color="white" />
+                </Button>
+              )}
+              <Text
+                variant="headerSm"
+                color="failure"
+                style={{
+                  textAlign: "center",
                 }}
-                blurOnSubmit={false}
-                style={styles.input}
-              />
-              <Field
-                innerRef={(el: any) => (passwordRef.current = el)}
-                component={Input}
-                label="Password"
-                name="password"
-                placeholder="•••••••••"
-                type="password"
-                secureTextEntry={hidePassword}
-                setHidePassword={setHidePassword}
-                onSubmitEditing={() => handleSubmit()}
-                style={styles.input}
-              />
-            </View>
-
-            <Checkbox />
-
-            {!isSubmitting && (
-              <Button
-                borderRadius={30}
-                pv={12}
-                label="Sign in"
-                textColor="background"
-                bgColor="primary"
-                mt={50}
-                onPress={() => handleSubmit()}
-              />
-            )}
-
-            {isSubmitting && (
-              <Button
-                borderRadius={30}
-                pv={12}
-                textColor="background"
-                bgColor="primary"
-                mt={50}
+                mt={10}
               >
-                <ActivityIndicator size="large" color="white" />
-              </Button>
-            )}
-
-            <Text
-              variant="headerSm"
-              color="failure"
-              style={{
-                textAlign: "center",
-              }}
-              mt={10}
-            >
-              {errorMessage}
-            </Text>
-          </>
-        )}
-      </Formik>
-    </Box>
+                {errorMessage}
+              </Text>
+            </>
+          )}
+        </Formik>
+      </Box>
+    </KeyboardAvoidingWrapper>
   );
 }
