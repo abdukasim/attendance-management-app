@@ -1,12 +1,21 @@
-import { View, Text, SafeAreaView } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useModalStore } from "../../../store/modal-store";
-import useSearch from "../../../hooks/useSearch";
-import { fetchPendingList } from "../../../services/pending";
+import React, { useCallback, useEffect, useState } from "react";
+
+//components
+import { SafeAreaView } from "react-native";
 import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";
-import { styles } from "./styles";
 import PendingModal from "../../../components/modals/pending-modal";
+
+//styles
+import { styles } from "./styles";
+
+//hooks
+import { useModalStore } from "../../../store/modal-store";
+import useSearch from "../../../hooks/useSearch";
+import { useFocusEffect } from "@react-navigation/native";
+
+//services
+import { fetchPendingList } from "../../../services/pending";
 
 export function PendingListScreen() {
   const [clicked, setClicked] = useState(false);
@@ -20,6 +29,12 @@ export function PendingListScreen() {
   useEffect(() => {
     fetchPendingList(setPendingList);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchPendingList(setPendingList);
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
