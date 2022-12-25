@@ -1,20 +1,53 @@
+import React, { useCallback, useState } from "react";
+
+//icons
 import { AntDesign } from "@expo/vector-icons";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { FlatList, Pressable, SafeAreaView, View } from "react-native";
 import { LogoWatermark } from "../../../assets/svg/logo-watermark";
-import { useModalStore } from "../../store/modal-store";
+
+//components
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  SafeAreaView,
+  View,
+} from "react-native";
 import { Card } from "../card";
 import { Text } from "../text";
+
+//styles
 import { styles } from "./styles";
+
+//services
+import { fetchList } from "../../services/list";
+
+//hooks
+import { useListStore } from "../../store/list-store";
+import { useModalStore } from "../../store/modal-store";
 
 interface ListProps {
   data: any;
-  parent: "attendance" | "pending";
+  parent: "attendance" | "pending" | "visited" | "beneficiaries";
 }
 
 export const List: React.FC<ListProps> = ({ data, parent }) => {
   const [selectedID, setSelectedID] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+
   const modalStore = useModalStore((state) => state);
+  const listStore = useListStore((state) => state);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    parent === "beneficiaries"
+      ? fetchList(
+          listStore[parent].setListData,
+          listStore[parent].endpoint,
+          listStore[parent].param
+        )
+      : fetchList(listStore[parent].setListData, listStore[parent].endpoint);
+    setRefreshing(false);
+  }, []);
 
   const ListItem = ({ item }: any) => (
     <Pressable
@@ -59,9 +92,9 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={ListItem}
         contentContainerStyle={{ paddingBottom: 500 }}
-        //   refreshControl={
-        //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        //   }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );
