@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
     paddingVertical: verticalScale(16),
     paddingHorizontal: horizontalScale(28),
     marginBottom: verticalScale(12),
+    color: theme.colors.foreground,
   },
   errorInput: {
     borderColor: "red",

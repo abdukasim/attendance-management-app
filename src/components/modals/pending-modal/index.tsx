@@ -37,7 +37,7 @@ const PendingListValidationSchema = yup.object().shape({
 });
 
 export default function PendingModal() {
-  const modaleStore = useModalStore((state) => state);
+  const modaleStore = useModalStore((state) => state.pending);
 
   const [message, setMessage] = useState({
     text: "",
@@ -71,10 +71,10 @@ export default function PendingModal() {
 
   return (
     <Modal
-      isVisible={modaleStore.pending.isShow}
+      isVisible={modaleStore.isShow}
       backdropOpacity={0.7}
-      onBackdropPress={modaleStore.pending.hide}
-      onBackButtonPress={modaleStore.pending.hide}
+      onBackdropPress={modaleStore.hide}
+      onBackButtonPress={modaleStore.hide}
       propagateSwipe
       style={{ margin: 0 }}
     >
@@ -90,9 +90,9 @@ export default function PendingModal() {
         >
           <Formik
             initialValues={{
-              id: modaleStore.pending.pendingData.id,
+              id: modaleStore.pendingData.id,
               image: "",
-              audio: "",
+              recording: "",
               age: "",
               maritalStatus: "",
               children: [{ name: "", age: "", schooling: "" }],
@@ -105,7 +105,7 @@ export default function PendingModal() {
             onSubmit={(values, { setSubmitting }) => {
               handlePendingListForm(values, setSubmitting, setMessage);
               setTimeout(() => {
-                modaleStore.pending.hide();
+                modaleStore.hide();
                 setMessage({
                   text: "",
                   type: "",
