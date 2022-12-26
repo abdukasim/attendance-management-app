@@ -12,8 +12,10 @@ export const styles = StyleSheet.create({
   },
   recorders: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     marginHorizontal: horizontalScale(18),
+    marginBottom: verticalScale(18),
   },
   recorderBtn: {
     justifyContent: "center",

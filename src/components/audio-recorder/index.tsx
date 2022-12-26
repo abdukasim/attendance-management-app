@@ -31,7 +31,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({
   setFieldValue,
 }) => {
   const [recording, setRecording] = useState<Audio.Recording>();
-  const [audio, setSound] = useState<Audio.Sound>();
+  const [audio, setAudio] = useState<Audio.Sound>();
   const [playing, setPlaying] = useState(false);
   const [audioUri, setAudioUri] = useState<string | null | undefined>();
 
@@ -66,7 +66,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({
   async function playSound() {
     // Loading Sound
     const { sound } = await Audio.Sound.createAsync({ uri: audioUri! });
-    setSound(sound);
+    setAudio(sound);
     // Souncd loaded
 
     // Playing Sound
