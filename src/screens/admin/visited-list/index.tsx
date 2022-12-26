@@ -7,7 +7,7 @@ import { fetchList } from "../../../services/list";
 import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";
 import { styles } from "../pending-list/styles";
-import { VisitedModal } from "../../../components/modals/visit-modal";
+import VisitedModal from "../../../components/modals/visit-modal";
 import { useListStore } from "../../../store/list-store";
 
 export function VisitedListScreen() {
