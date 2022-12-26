@@ -15,13 +15,9 @@ export function login(
       setSubmitting(false);
     })
     .catch((err) => {
-      console.error(err.response.data.description);
-      setErrorMessage(err.response.data.description);
+      if (!err.response) {
+        setErrorMessage(err.message);
+      } else setErrorMessage(err.response.data.description);
       setSubmitting(false);
-
-      // if (!err.response) {
-      //   handleMessage(err.message);
-      // } else handleMessage(err.response.data.description);
-      // setSubmitting(false);
     });
 }
