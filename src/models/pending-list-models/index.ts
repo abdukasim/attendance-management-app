@@ -1,7 +1,7 @@
 export interface PendingListFormValues {
   id: any;
   image: string;
-  audio: string;
+  recording: string;
   age: string;
   maritalStatus: string;
   children: {
