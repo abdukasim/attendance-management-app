@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Component } from "react";
+
 import {
   AttendanceIcon,
   PendingIcon,
@@ -9,6 +9,7 @@ import {
   StarIcon,
   VisitedIcon,
 } from "../../../assets/svg/icons";
+import { Logout } from "../../components/logout";
 import { moderateScale, verticalScale } from "../../helpers/metrics";
 import {
   BeneficiariesListScreen,
@@ -53,7 +54,7 @@ export default function AdminTabs({ navigation }: AdminScreenProps) {
             height: verticalScale(96),
             position: "absolute",
           },
-          //   headerRight: () => <Logout />,
+          headerRight: () => <Logout navigation={navigation} />,
         })}
       >
         <Tab.Screen name="Attendance" component={AttendanceScreen} />
