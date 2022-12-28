@@ -1,14 +1,22 @@
-import { View, Text, SafeAreaView } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
+
+//components
+import { SafeAreaView } from "react-native";
+import { SearchBar } from "../../../components/searchBar";
+import { List } from "../../../components/list";
+import VisitedModal from "../../../components/modals/visit-modal";
+
+//styles
+import { styles } from "../pending-list/styles";
+
+//hooks
 import { useModalStore } from "../../../store/modal-store";
 import useSearch from "../../../hooks/useSearch";
 import { useFocusEffect } from "@react-navigation/native";
-import { fetchList } from "../../../services/list";
-import { SearchBar } from "../../../components/searchBar";
-import { List } from "../../../components/list";
-import { styles } from "../pending-list/styles";
-import VisitedModal from "../../../components/modals/visit-modal";
 import { useListStore } from "../../../store/list-store";
+
+//services
+import { fetchList } from "../../../services/list";
 
 export function VisitedListScreen() {
   const [clicked, setClicked] = useState(false);
