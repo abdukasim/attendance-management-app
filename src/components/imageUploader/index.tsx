@@ -16,13 +16,15 @@ interface ImageUploaderProps {
     isTouched?: boolean | undefined,
     shouldValidate?: boolean | undefined
   ) => void;
+  imageUri?: string; // TODO allow changing image in benefeciaries screen
 }
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   setFieldTouched,
   setFieldValue,
+  imageUri,
 }) => {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(imageUri);
 
   const pickImage = async () => {
     setFieldTouched("image", true);
