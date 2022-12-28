@@ -142,7 +142,7 @@ export default function VisitedModal() {
                 editable={false}
               />
               <TextInput
-                value={modalStore.visitedData.rent.status}
+                value={modalStore.visitedData?.rent?.status}
                 style={styles.input}
                 editable={false}
               />
