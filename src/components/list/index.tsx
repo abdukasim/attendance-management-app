@@ -27,7 +27,7 @@ import { useModalStore } from "../../store/modal-store";
 
 interface ListProps {
   data: any;
-  parent: "attendance" | "pending" | "visited" | "beneficiaries";
+  parent: "attendance" | "pending" | "visited" | "beneficiaries" | "order";
 }
 
 export const List: React.FC<ListProps> = ({ data, parent }) => {
