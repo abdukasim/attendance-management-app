@@ -9,7 +9,11 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../navigation/types";
 
 interface LogoutProps {
-  navigation: NativeStackNavigationProp<MainStackParamList, "ADMIN", undefined>;
+  navigation: NativeStackNavigationProp<
+    MainStackParamList,
+    "ADMIN" | "ATT_OFF" | "REG_OFF",
+    undefined
+  >;
 }
 
 export const Logout = ({ navigation }: LogoutProps) => {

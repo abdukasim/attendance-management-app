@@ -32,7 +32,10 @@ export type AdminTabParamList = {
   Report: undefined;
 };
 export type RegistrationTabParamList = {};
-export type AttendanceTabParamList = {};
+export type AttendanceTabParamList = {
+  Attendance: undefined;
+  Order: undefined;
+};
 
 // export type MainTabScreenProps<Screen extends keyof LoginScreenParamList> =
 //   CompositeScreenProps<

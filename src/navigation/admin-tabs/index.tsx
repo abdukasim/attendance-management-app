@@ -17,7 +17,7 @@ import {
   ReportScreen,
   VisitedListScreen,
 } from "../../screens/admin";
-import AttendanceScreen from "../../screens/attendance";
+import AttendanceScreen from "../../screens/attendance/attendance-list";
 import { theme } from "../../styles/theme";
 import { AdminTabParamList, MainStackParamList } from "../types";
 
