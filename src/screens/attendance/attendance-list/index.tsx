@@ -2,22 +2,22 @@ import React, { useCallback, useEffect, useState } from "react";
 
 //components
 import { SafeAreaView, View } from "react-native";
-import Stats from "../../components/stats";
-import { SearchBar } from "../../components/searchBar";
-import { List } from "../../components/list";
-import { AttendanceModal } from "../../components/modals/attendance-modal";
+import Stats from "../../../components/stats";
+import { SearchBar } from "../../../components/searchBar";
+import { List } from "../../../components/list";
+import { AttendanceModal } from "../../../components/modals/attendance-modal";
 
 //hooks
-import useSearch from "../../hooks/useSearch";
-import { useModalStore } from "../../store/modal-store";
+import useSearch from "../../../hooks/useSearch";
+import { useModalStore } from "../../../store/modal-store";
 import { useFocusEffect } from "@react-navigation/native";
-import { useListStore } from "../../store/list-store";
+import { useListStore } from "../../../store/list-store";
 
 //styles
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../services/list";
+import { fetchList } from "../../../services/list";
 
 export default function AttendanceScreen() {
   const [clicked, setClicked] = useState(false);
