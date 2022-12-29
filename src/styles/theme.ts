@@ -40,6 +40,11 @@ export const theme = {
       fontWeight: "700",
       fontSize: moderateScale(16),
     },
+    headerXl: {
+      fontFamily: "Articulat CF",
+      fontWeight: "700",
+      fontSize: moderateScale(28),
+    },
     headerLg: {
       fontFamily: "Articulat CF",
       fontWeight: "600",
