@@ -3,12 +3,18 @@ import create from "zustand";
 
 import {
   ATTENDANCE_LIST_ENDPOINT,
+  ORDER_LIST_ENDPOINT,
   PENDING_LIST_ENDPOINT,
   VISITED_LIST_ENDPOINT,
 } from "@env";
 
 export interface ListStore {
   attendance: {
+    listData: [];
+    setListData: (data: []) => void;
+    endpoint: string;
+  };
+  order: {
     listData: [];
     setListData: (data: []) => void;
     endpoint: string;
@@ -42,6 +48,17 @@ export const useListStore = create<ListStore>((set) => ({
       );
     },
     endpoint: ATTENDANCE_LIST_ENDPOINT,
+  },
+  order: {
+    listData: [],
+    setListData: (data) => {
+      set(
+        produce<ListStore>((state) => {
+          state.order.listData = data;
+        })
+      );
+    },
+    endpoint: ORDER_LIST_ENDPOINT,
   },
   pending: {
     listData: [],

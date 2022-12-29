@@ -9,6 +9,13 @@ export interface ModalStore {
     hide: () => void;
     toggle: () => void;
   };
+  order: {
+    isShow: boolean;
+    orderData: any;
+    show: (data: object) => void;
+    hide: () => void;
+    toggle: () => void;
+  };
   pending: {
     isShow: boolean;
     pendingData: any;
@@ -55,6 +62,32 @@ export const useModalStore = create<ModalStore>((set, get) => ({
       set(
         produce<ModalStore>((state) => {
           state.attendance.isShow = !state.attendance.isShow;
+        })
+      );
+    },
+  },
+  order: {
+    isShow: false,
+    orderData: {},
+    show: (data) => {
+      set(
+        produce<ModalStore>((state) => {
+          state.order.isShow = true;
+          state.order.orderData = data;
+        })
+      );
+    },
+    hide: () => {
+      set(
+        produce<ModalStore>((state) => {
+          state.order.isShow = false;
+        })
+      );
+    },
+    toggle: () => {
+      set(
+        produce<ModalStore>((state) => {
+          state.order.isShow = !state.order.isShow;
         })
       );
     },
