@@ -33,7 +33,6 @@ export interface ListStore {
     listData: [];
     setListData: (data: []) => void;
     endpoint: string;
-    param: { type: string };
   };
 }
 
@@ -92,6 +91,5 @@ export const useListStore = create<ListStore>((set) => ({
       );
     },
     endpoint: ATTENDANCE_LIST_ENDPOINT,
-    param: { type: "full" },
   },
 }));

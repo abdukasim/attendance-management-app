@@ -1,4 +1,4 @@
-import url from "../../helpers/url";
+import url from "../../helpers/attendanceApi";
 
 export const fetchList = async (
   setList: any,
@@ -6,9 +6,7 @@ export const fetchList = async (
   param?: object
 ) => {
   try {
-    const res = await url.get(endpoint, {
-      params: param,
-    });
+    const res = await url.get(endpoint);
     setList(res.data.list);
   } catch (error) {
     console.error(error);

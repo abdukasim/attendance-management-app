@@ -29,12 +29,12 @@ export function BeneficiariesListScreen() {
   );
 
   useEffect(() => {
-    fetchList(listStore.setListData, listStore.endpoint, listStore.param);
+    fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchList(listStore.setListData, listStore.endpoint, listStore.param);
+      fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (
