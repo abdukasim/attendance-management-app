@@ -31,7 +31,10 @@ export type AdminTabParamList = {
   Visited: undefined;
   Report: undefined;
 };
-export type RegistrationTabParamList = {};
+export type RegistrationTabParamList = {
+  New: undefined;
+  Old: undefined;
+};
 export type AttendanceTabParamList = {
   Attendance: undefined;
   Order: undefined;
