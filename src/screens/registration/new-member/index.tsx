@@ -9,7 +9,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Text } from "../../../components/text";
 import { Button } from "../../../components/button";
 import { registration } from "../../../services/registration-services";
-import { CreatePendingUserRequest } from "../../../models/pendingUser";
+import { CreatePendingUserRequest } from "../../../models/pending-models";
 import * as yup from "yup";
 
 const NewMemberRegistrationValidationSchema = yup.object().shape({

@@ -1,4 +1,4 @@
-import { VisitPendingUserRequest } from "../models/pendingUser";
+import { VisitPendingUserRequest } from "../models/pending-models";
 import url from "../helpers/attendanceApi";
 
 export default class pending {

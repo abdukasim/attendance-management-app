@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "../helpers/attendanceApi";
-import { RegisterBeneficiaryRequest } from "../models/beneficiary";
-import { CreatePendingUserRequest } from "../models/pendingUser";
+import { RegisterBeneficiaryRequest } from "../models/beneficiary-models";
+import { CreatePendingUserRequest } from "../models/pending-models";
 
 export class registration {
   /**
