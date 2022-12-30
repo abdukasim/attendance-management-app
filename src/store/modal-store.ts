@@ -2,6 +2,11 @@ import produce from "immer";
 import create from "zustand";
 
 export interface ModalStore {
+  delete: {
+    isShow: boolean;
+    show: () => void;
+    hide: () => void;
+  };
   attendance: {
     isShow: boolean;
     attendeeData: any;
@@ -40,6 +45,23 @@ export interface ModalStore {
 }
 
 export const useModalStore = create<ModalStore>((set, get) => ({
+  delete: {
+    isShow: false,
+    show: () => {
+      set(
+        produce<ModalStore>((state) => {
+          state.delete.isShow = true;
+        })
+      );
+    },
+    hide: () => {
+      set(
+        produce<ModalStore>((state) => {
+          state.delete.isShow = false;
+        })
+      );
+    },
+  },
   attendance: {
     isShow: false,
     attendeeData: {},
