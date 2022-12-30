@@ -6,13 +6,13 @@ import * as yup from "yup";
 import { Field, Formik } from "formik";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../navigation/types";
-import { login } from "../../../services/auth";
 import Input from "../../../components/form/inputs";
 import { ActivityIndicator, View } from "react-native";
 import Checkbox from "../../../components/form/checkbox";
 import { Button } from "../../../components/button";
 import { styles } from "./styles";
 import KeyboardAvoidingWrapper from "../../../components/keyboard-avoiding-wrapper";
+import { auth } from "../../../services/auth-service";
 
 type LoginScreenProps = NativeStackScreenProps<MainStackParamList, "Login">;
 
@@ -57,7 +57,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           initialValues={initialValues}
           validationSchema={LoginValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            login(values, navigation, setErrorMessage, setSubmitting);
+            auth.login(values, navigation, setErrorMessage, setSubmitting);
           }}
         >
           {({ handleSubmit, isSubmitting }) => (
