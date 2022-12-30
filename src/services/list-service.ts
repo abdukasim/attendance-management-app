@@ -1,4 +1,4 @@
-import url from "../../helpers/attendanceApi";
+import url from "../helpers/attendanceApi";
 
 export const fetchList = async (
   setList: any,
