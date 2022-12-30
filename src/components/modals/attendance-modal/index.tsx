@@ -1,14 +1,19 @@
 import React from "react";
+
+//components
 import { TouchableOpacity, View } from "react-native";
-import {
-  permessionAttendee,
-  presentAttendee,
-} from "../../../services/attendance";
-import { useModalStore } from "../../../store/modal-store";
 import { Button } from "../../button";
 import { Card } from "../../card";
 import { Text } from "../../text";
+
+//styles
 import { styles } from "./styles";
+
+//hooks
+import { useModalStore } from "../../../store/modal-store";
+
+//services
+import attendance from "../../../services/attendance-services";
 
 interface AttendanceModalProps {}
 
@@ -42,7 +47,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           textColor="foreground"
           label="Present"
           mb={12}
-          onPress={() => presentAttendee()}
+          onPress={() => attendance.markPresent()}
         />
         <Button
           borderRadius={30}
@@ -50,7 +55,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           bgColor="background"
           textColor="foreground"
           label="Permission"
-          onPress={() => permessionAttendee()}
+          onPress={() => attendance.givePermisssion()}
         />
       </Card>
     </View>

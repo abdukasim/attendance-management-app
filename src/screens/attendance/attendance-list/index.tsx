@@ -17,7 +17,7 @@ import { useListStore } from "../../../store/list-store";
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../../services/list";
+import { fetchList } from "../../../services/list-service";
 
 export default function AttendanceScreen() {
   const [clicked, setClicked] = useState(false);

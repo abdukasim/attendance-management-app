@@ -16,7 +16,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useListStore } from "../../../store/list-store";
 
 //services
-import { fetchList } from "../../../services/list";
+import { fetchList } from "../../../services/list-service";
 
 export function BeneficiariesListScreen() {
   const [clicked, setClicked] = useState(false);

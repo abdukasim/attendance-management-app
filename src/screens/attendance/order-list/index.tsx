@@ -14,7 +14,7 @@ import { useListStore } from "../../../store/list-store";
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../../services/list";
+import { fetchList } from "../../../services/list-service";
 
 export default function OrderScreen() {
   const modalStore = useModalStore((state) => state.order);

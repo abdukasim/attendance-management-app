@@ -19,7 +19,7 @@ import { Text } from "../text";
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../services/list";
+import { fetchList } from "../../services/list-service";
 
 //hooks
 import { useListStore } from "../../store/list-store";
@@ -39,13 +39,7 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    parent === "beneficiaries"
-      ? fetchList(
-          listStore[parent].setListData,
-          listStore[parent].endpoint,
-          listStore[parent].param
-        )
-      : fetchList(listStore[parent].setListData, listStore[parent].endpoint);
+    fetchList(listStore[parent].setListData, listStore[parent].endpoint);
     setRefreshing(false);
   }, []);
 

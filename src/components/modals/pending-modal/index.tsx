@@ -24,7 +24,7 @@ import { Field, Formik, FieldArray } from "formik";
 import * as yup from "yup";
 
 //services
-import { handlePendingListForm } from "../../../services/pending";
+import pending from "../../../services/pending-services";
 
 const PendingListValidationSchema = yup.object().shape({
   age: yup
@@ -93,17 +93,17 @@ export default function PendingModal() {
               id: modalStore.pendingData.id,
               image: "",
               recording: "",
-              age: "",
+              age: 0,
               maritalStatus: "",
               children: [{ name: "", age: "", schooling: "" }],
               jobStatus: "",
               shelterStatus: "",
-              rent: "",
+              rentAmount: 0,
               remark: "",
             }}
             validationSchema={PendingListValidationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              handlePendingListForm(values, setSubmitting, setMessage);
+              pending.visitUser(values, setSubmitting, setMessage);
               setTimeout(() => {
                 modalStore.hide();
                 setMessage({
