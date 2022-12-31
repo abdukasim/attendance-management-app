@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 //components
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
 import Stats from "../../../components/stats";
 import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";

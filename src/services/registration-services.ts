@@ -2,15 +2,15 @@ import axios from "axios";
 import url from "../helpers/attendanceApi";
 import { RegisterBeneficiaryRequest } from "../models/beneficiary-models";
 import { CreatePendingUserRequest } from "../models/pending-models";
-
+import qs from "qs";
 export class registration {
   /**
    * ## New member registration
    * @param formData form values
    */
   static async new(formData: CreatePendingUserRequest) {
-    axios
-      .post("http://192.168.1.7:5000/api/v0/pending-list", formData)
+    url
+      .post("/pending-list", qs.stringify(formData))
       .then((res) => console.log(res.status))
       .catch((err) => console.error(err));
   }

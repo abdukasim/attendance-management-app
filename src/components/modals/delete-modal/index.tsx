@@ -7,7 +7,7 @@ import { Card } from "../../card";
 import { Text } from "../../text";
 
 //styles
-import { styles } from "./styles";
+import { styles } from "../attendance-modal/styles";
 
 //hooks
 import { useModalStore } from "../../../store/modal-store";
@@ -17,13 +17,13 @@ import attendance from "../../../services/attendance-services";
 
 interface AttendanceModalProps {}
 
-export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
+export const DeleteModal: React.FC<AttendanceModalProps> = () => {
   const modaleStore = useModalStore((state) => state);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => modaleStore.attendance.hide()}
+        onPress={() => modaleStore.delete.hide()}
         style={styles.backdrop}
       ></TouchableOpacity>
       <Card
@@ -35,17 +35,14 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
         px={28}
       >
         <Text color="background" variant="headerLg">
-          {modaleStore.attendance.attendeeData.name}
-        </Text>
-        <Text color="background" variant="headerSm" mb={28}>
-          {modaleStore.attendance.attendeeData.muntahaId}
+          Are you sure you want to remove this guy?
         </Text>
         <Button
           borderRadius={30}
           pv={12}
           bgColor="secondary"
           textColor="foreground"
-          label="Present"
+          label="No"
           mb={12}
           onPress={() => attendance.markPresent()}
         />
@@ -54,7 +51,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           pv={12}
           bgColor="background"
           textColor="foreground"
-          label="Permission"
+          label="Yes"
           onPress={() => attendance.givePermisssion()}
         />
       </Card>

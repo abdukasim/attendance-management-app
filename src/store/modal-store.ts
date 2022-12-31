@@ -1,5 +1,8 @@
 import produce from "immer";
 import create from "zustand";
+import { BeneficiaryModel } from "../models/beneficiary-models";
+import { VisitPendingUserRequest } from "../models/pending-models";
+import { VisitedUserModel } from "../models/visited-models";
 
 export interface ModalStore {
   delete: {
@@ -9,8 +12,8 @@ export interface ModalStore {
   };
   attendance: {
     isShow: boolean;
-    attendeeData: any;
-    show: (data: object) => void;
+    attendeeData: BeneficiaryModel;
+    show: (data: BeneficiaryModel) => void;
     hide: () => void;
     toggle: () => void;
   };
@@ -23,22 +26,22 @@ export interface ModalStore {
   };
   pending: {
     isShow: boolean;
-    pendingData: any;
-    show: (data: object) => void;
+    pendingData: VisitPendingUserRequest;
+    show: (data: VisitPendingUserRequest) => void;
     hide: () => void;
     toggle: () => void;
   };
   visited: {
     isShow: boolean;
-    visitedData: any;
-    show: (data: object) => void;
+    visitedData: VisitedUserModel;
+    show: (data: VisitedUserModel) => void;
     hide: () => void;
     toggle: () => void;
   };
   beneficiaries: {
     isShow: boolean;
-    beneficiariesData: any;
-    show: (data: object) => void;
+    beneficiariesData: BeneficiaryModel;
+    show: (data: BeneficiaryModel) => void;
     hide: () => void;
     toggle: () => void;
   };
@@ -64,7 +67,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   attendance: {
     isShow: false,
-    attendeeData: {},
+    attendeeData: <BeneficiaryModel>{},
     show: (data) => {
       set(
         produce<ModalStore>((state) => {
@@ -116,7 +119,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   pending: {
     isShow: false,
-    pendingData: {},
+    pendingData: <VisitPendingUserRequest>{},
     show: (data) => {
       set(
         produce<ModalStore>((state) => {
@@ -142,7 +145,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   visited: {
     isShow: false,
-    visitedData: {},
+    visitedData: <VisitedUserModel>{},
     show: (data) => {
       set(
         produce<ModalStore>((state) => {
@@ -168,7 +171,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   beneficiaries: {
     isShow: false,
-    beneficiariesData: {},
+    beneficiariesData: <BeneficiaryModel>{},
     show: (data) => {
       set(
         produce<ModalStore>((state) => {

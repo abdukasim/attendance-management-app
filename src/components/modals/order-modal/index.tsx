@@ -1,14 +1,16 @@
 import React from "react";
+
+//components
 import { TouchableOpacity, View } from "react-native";
-import {
-  permessionAttendee,
-  presentAttendee,
-} from "../../../services/attendance";
-import { useModalStore } from "../../../store/modal-store";
 import { Button } from "../../button";
 import { Card } from "../../card";
 import { Text } from "../../text";
+
+//styles
 import { styles } from "./styles";
+
+//hooks
+import { useModalStore } from "../../../store/modal-store";
 
 interface OrderModalProps {}
 
@@ -42,8 +44,9 @@ export const OrderModal: React.FC<OrderModalProps> = () => {
           textColor="foreground"
           label="Remove"
           mb={12}
-          onPress={() => presentAttendee()}
+          onPress={() => {}}
         />
+        {/* TODO order modal services */}
       </Card>
     </View>
   );

@@ -53,6 +53,7 @@ export default function NewMemberRegistration() {
           validationSchema={NewMemberRegistrationValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
             registration.new(values);
+            setSubmitting(false);
             Object.keys(values).forEach((key) => {
               values[key as keyof CreatePendingUserRequest] = "";
             });
@@ -93,7 +94,7 @@ export default function NewMemberRegistration() {
                 listMode="SCROLLVIEW"
                 zIndex={3000}
                 zIndexInverse={1000}
-                placeholder="Shelter Status"
+                placeholder="Sex"
                 open={openDropdown}
                 value={dropdownValue}
                 items={dropdownOptions}

@@ -1,20 +1,25 @@
 import React, { useState } from "react";
+
+//components
 import { ScrollView, TextInput, View } from "react-native";
 import Modal from "react-native-modal";
-import { horizontalScale, verticalScale } from "../../../helpers/metrics";
-import { useModalStore } from "../../../store/modal-store";
 import { Button } from "../../button";
 import { Card } from "../../card";
-import Input from "../../form/inputs";
 import { Text } from "../../text";
+import { Img } from "../../image";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { Audio } from "expo-av";
+
+//styles
 import { styles } from "../pending-modal/styles";
 import { styles as imgStyles } from "../../imageUploader/styles";
 import { styles as audioStyles } from "../../audio-recorder/styles";
-import { Img } from "../../image";
-import { API_URL } from "@env";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { horizontalScale } from "../../../helpers/metrics";
 import { theme } from "../../../styles/theme";
-import { Audio } from "expo-av";
+
+//hooks
+import { useModalStore } from "../../../store/modal-store";
+import { API_URL } from "@env";
 
 export default function VisitedModal() {
   const modalStore = useModalStore((state) => state.visited);
@@ -26,7 +31,7 @@ export default function VisitedModal() {
     try {
       // Loading Sound
       const { sound } = await Audio.Sound.createAsync({
-        uri: `${API_URL}${modalStore.visitedData.recording[0]!}`,
+        uri: `${API_URL}${modalStore.visitedData.recording}`,
       });
       setAudio(sound);
       // Souncd loaded
@@ -137,12 +142,12 @@ export default function VisitedModal() {
               style={{ flexDirection: "column", width: horizontalScale(151) }}
             >
               <TextInput
-                value={modalStore.visitedData.age}
+                value={String(modalStore.visitedData.age)}
                 style={styles.input}
                 editable={false}
               />
               <TextInput
-                value={modalStore.visitedData?.rent?.status}
+                value={String(modalStore.visitedData?.rentAmount)}
                 style={styles.input}
                 editable={false}
               />
@@ -152,7 +157,7 @@ export default function VisitedModal() {
             >
               <TextInput value="name" style={styles.input} editable={false} />
               <TextInput
-                value={modalStore.visitedData.rent.amount}
+                value={String(modalStore.visitedData.rentAmount)}
                 style={styles.input}
                 editable={false}
               />

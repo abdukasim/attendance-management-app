@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import url from "../helpers/sessionApi";
-import { LoginRequest, LogoutResponse } from "../models/session";
+import { LoginRequest, LogoutResponse } from "../models/session-models";
 import { MainStackParamList } from "../navigation/types";
 import qs from "qs";
 

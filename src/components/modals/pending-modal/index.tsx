@@ -76,7 +76,7 @@ export default function PendingModal() {
       onBackdropPress={modalStore.hide}
       onBackButtonPress={modalStore.hide}
       propagateSwipe
-      style={{ margin: 0 }}
+      style={{ margin: 0, paddingHorizontal: 30 }}
     >
       <ScrollView>
         <Card
