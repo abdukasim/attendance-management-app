@@ -17,7 +17,7 @@ import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 
 export default function BeneficiariesModal() {
-  const modalStore = useModalStore((state) => state.beneficiaries);
+  const modalStore = useModalStore((state) => state);
   const [edit, setEdit] = useState(false);
 
   const html = `
@@ -53,37 +53,39 @@ export default function BeneficiariesModal() {
             <div className="content-wrapper">
               <h4>Image</h4>
             <img src="http://api.muntahafoundation.org${
-              modalStore.beneficiariesData.image
+              modalStore.beneficiaries.beneficiariesData.image
             }" alt=${
-    modalStore.beneficiariesData.name
+    modalStore.beneficiaries.beneficiariesData.name
   } width="100" height="100" style={border-radius: 999} />
             </div>
             <div className="content-wrapper">
             <h4>Name</h4>
-            <p className="content-text">${modalStore.beneficiariesData.name}</p>
+            <p className="content-text">${
+              modalStore.beneficiaries.beneficiariesData.name
+            }</p>
           </div>
             <div className="content-wrapper">
               <h4>Phone</h4>
               <p className="content-text">${
-                modalStore.beneficiariesData.phone
+                modalStore.beneficiaries.beneficiariesData.phone
               }</p>
             </div>
             <div className="content-wrapper">
               <h4>age</h4>
               <p className="content-text">${
-                modalStore.beneficiariesData.age
+                modalStore.beneficiaries.beneficiariesData.age
               }</p>
             </div>
             <div className="content-wrapper">
             <h4>Address</h4>
             <p className="content-text">${
-              modalStore.beneficiariesData.address
+              modalStore.beneficiaries.beneficiariesData.address
             }</p>
           </div>
           <div className="content-wrapper">
           ${
-            modalStore.beneficiariesData.children?.length
-              ? modalStore.beneficiariesData.children.map(
+            modalStore.beneficiaries.beneficiariesData.children?.length
+              ? modalStore.beneficiaries.beneficiariesData.children.map(
                   (child: any) =>
                     `<div key={index} className="child-list">
                     <h4>Child Name</h4>
@@ -97,7 +99,7 @@ export default function BeneficiariesModal() {
               : `
               <div>
                 <h4>Children</h4>
-                <p className="content-text">${modalStore.beneficiariesData.children?.length}</p>
+                <p className="content-text">${modalStore.beneficiaries.beneficiariesData.children?.length}</p>
               </div>`
           } 
         </div>
@@ -119,10 +121,10 @@ export default function BeneficiariesModal() {
 
   return (
     <Modal
-      isVisible={modalStore.isShow}
+      isVisible={modalStore.beneficiaries.isShow}
       backdropOpacity={0.7}
-      onBackdropPress={modalStore.hide}
-      onBackButtonPress={modalStore.hide}
+      onBackdropPress={modalStore.beneficiaries.hide}
+      onBackButtonPress={modalStore.beneficiaries.hide}
       style={{ margin: 0, paddingHorizontal: 30 }}
     >
       <ScrollView style={{}}>
@@ -137,30 +139,31 @@ export default function BeneficiariesModal() {
         >
           <Formik
             initialValues={{
-              id: modalStore.beneficiariesData.id,
+              id: modalStore.beneficiaries.beneficiariesData.id,
               // image: "",
-              name: modalStore.beneficiariesData.name,
-              sex: modalStore.beneficiariesData.sex,
-              age: modalStore.beneficiariesData.age,
-              phone: modalStore.beneficiariesData.phone,
-              address: modalStore.beneficiariesData.address,
-              maritalStatus: modalStore.beneficiariesData.maritalStatus,
-              jobStatus: modalStore.beneficiariesData.jobStatus,
+              name: modalStore.beneficiaries.beneficiariesData.name,
+              sex: modalStore.beneficiaries.beneficiariesData.sex,
+              age: modalStore.beneficiaries.beneficiariesData.age,
+              phone: modalStore.beneficiaries.beneficiariesData.phone,
+              address: modalStore.beneficiaries.beneficiariesData.address,
+              maritalStatus:
+                modalStore.beneficiaries.beneficiariesData.maritalStatus,
+              jobStatus: modalStore.beneficiaries.beneficiariesData.jobStatus,
             }}
             onSubmit={(values, { setSubmitting }) => {
               //edit function call
               setTimeout(() => {
-                modalStore.hide();
+                modalStore.beneficiaries.hide();
               }, 2000);
             }}
           >
             {({ handleSubmit }) => (
               <>
                 <View style={imgStyles.imageContainer}>
-                  {modalStore.beneficiariesData.image && (
+                  {modalStore.beneficiaries.beneficiariesData.image && (
                     <Img
                       source={{
-                        uri: `${API_URL}${modalStore.beneficiariesData.image}`,
+                        uri: `${API_URL}${modalStore.beneficiaries.beneficiariesData.image}`,
                       }}
                       width="100%"
                       height="100%"
@@ -257,6 +260,10 @@ export default function BeneficiariesModal() {
                       pv={12}
                       borderRadius={30}
                       style={shadowStyle.shadow}
+                      onPress={() => {
+                        modalStore.beneficiaries.hide();
+                        modalStore.delete.show();
+                      }}
                     />
                   </View>
                 )}

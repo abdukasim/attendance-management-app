@@ -37,7 +37,7 @@ const PendingListValidationSchema = yup.object().shape({
 });
 
 export default function PendingModal() {
-  const modalStore = useModalStore((state) => state.pending);
+  const modalStore = useModalStore((state) => state);
 
   const [message, setMessage] = useState({
     text: "",
@@ -71,10 +71,10 @@ export default function PendingModal() {
 
   return (
     <Modal
-      isVisible={modalStore.isShow}
+      isVisible={modalStore.pending.isShow}
       backdropOpacity={0.7}
-      onBackdropPress={modalStore.hide}
-      onBackButtonPress={modalStore.hide}
+      onBackdropPress={modalStore.pending.hide}
+      onBackButtonPress={modalStore.pending.hide}
       propagateSwipe
       style={{ margin: 0, paddingHorizontal: 30 }}
     >
@@ -90,7 +90,7 @@ export default function PendingModal() {
         >
           <Formik
             initialValues={{
-              id: modalStore.pendingData.id,
+              id: modalStore.pending.pendingData.id,
               image: "",
               recording: "",
               age: 0,
@@ -104,13 +104,13 @@ export default function PendingModal() {
             validationSchema={PendingListValidationSchema}
             onSubmit={(values, { setSubmitting }) => {
               pending.visitUser(values, setSubmitting, setMessage);
-              setTimeout(() => {
-                modalStore.hide();
-                setMessage({
-                  text: "",
-                  type: "",
-                });
-              }, 2000);
+              // setTimeout(() => {
+              //   modalStore.pending.hide();
+              //   setMessage({
+              //     text: "",
+              //     type: "",
+              //   });
+              // }, 2000);
               // console.log(values);
             }}
           >
@@ -284,30 +284,52 @@ export default function PendingModal() {
                   style={styles.input}
                 />
 
-                {!isSubmitting && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {!isSubmitting && (
+                    <Button
+                      label="Register"
+                      textColor="background"
+                      bgColor="primary"
+                      mt={50}
+                      pv={12}
+                      borderRadius={30}
+                      width={145}
+                      onPress={() => handleSubmit()}
+                    />
+                  )}
+                  {isSubmitting && (
+                    <Button
+                      borderRadius={30}
+                      pv={12}
+                      textColor="background"
+                      bgColor="primary"
+                      mt={50}
+                      width={145}
+                    >
+                      <ActivityIndicator size="small" color="white" />
+                    </Button>
+                  )}
+
                   <Button
-                    label="Register"
+                    label="Delete"
                     textColor="background"
-                    bgColor="primary"
+                    bgColor="failure"
                     mt={50}
                     pv={12}
                     borderRadius={30}
-                    style={{ width: "100%" }}
-                    onPress={() => handleSubmit()}
+                    width={145}
+                    onPress={() => {
+                      modalStore.pending.hide();
+                      modalStore.delete.show();
+                    }}
                   />
-                )}
-                {isSubmitting && (
-                  <Button
-                    borderRadius={30}
-                    pv={12}
-                    textColor="background"
-                    bgColor="primary"
-                    mt={50}
-                    style={{ width: "100%" }}
-                  >
-                    <ActivityIndicator size="large" color="white" />
-                  </Button>
-                )}
+                </View>
+
                 <Text
                   variant="headerSm"
                   color={message.type === "ERROR" ? "failure" : "success"}

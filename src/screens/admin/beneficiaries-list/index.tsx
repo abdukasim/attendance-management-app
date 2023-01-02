@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native";
 import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";
 import BeneficiariesModal from "../../../components/modals/beneficiary-modal";
+import { DeleteModal } from "../../../components/modals/delete-modal";
 
 //styles
 import { styles } from "../pending-list/styles";
@@ -16,12 +17,12 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useListStore } from "../../../store/list-store";
 
 //services
-import { fetchList } from "../../../services/list-service";
+import list from "../../../services/list-service";
 
 export function BeneficiariesListScreen() {
   const [clicked, setClicked] = useState(false);
 
-  const modalStore = useModalStore((state) => state.beneficiaries);
+  const modalStore = useModalStore((state) => state);
   const listStore = useListStore((state) => state.beneficiaries);
 
   const [search, filteredDataSource, searchFilterFunction] = useSearch(
@@ -29,12 +30,12 @@ export function BeneficiariesListScreen() {
   );
 
   useEffect(() => {
-    fetchList(listStore.setListData, listStore.endpoint);
+    list.fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchList(listStore.setListData, listStore.endpoint);
+      list.fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (
@@ -46,7 +47,13 @@ export function BeneficiariesListScreen() {
         setSearchPhrase={searchFilterFunction}
       />
       <List data={filteredDataSource} parent="beneficiaries" />
-      {modalStore.isShow && <BeneficiariesModal />}
+      {modalStore.beneficiaries.isShow && <BeneficiariesModal />}
+      {modalStore.delete.isShow && (
+        <DeleteModal
+          data={modalStore.beneficiaries.beneficiariesData}
+          listData={listStore}
+        />
+      )}
     </SafeAreaView>
   );
 }

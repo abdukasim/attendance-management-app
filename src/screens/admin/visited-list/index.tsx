@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native";
 import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";
 import VisitedModal from "../../../components/modals/visit-modal";
+import { DeleteModal } from "../../../components/modals/delete-modal";
 
 //styles
 import { styles } from "../pending-list/styles";
@@ -16,12 +17,12 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useListStore } from "../../../store/list-store";
 
 //services
-import { fetchList } from "../../../services/list-service";
+import list from "../../../services/list-service";
 
 export function VisitedListScreen() {
   const [clicked, setClicked] = useState(false);
 
-  const modalStore = useModalStore((state) => state.visited);
+  const modalStore = useModalStore((state) => state);
   const listStore = useListStore((state) => state.visited);
 
   const [search, filteredDataSource, searchFilterFunction] = useSearch(
@@ -29,12 +30,12 @@ export function VisitedListScreen() {
   );
 
   useEffect(() => {
-    fetchList(listStore.setListData, listStore.endpoint);
+    list.fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchList(listStore.setListData, listStore.endpoint);
+      list.fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (
@@ -46,7 +47,13 @@ export function VisitedListScreen() {
         setSearchPhrase={searchFilterFunction}
       />
       <List data={filteredDataSource} parent="visited" />
-      {modalStore.isShow && <VisitedModal />}
+      {modalStore.visited.isShow && <VisitedModal />}
+      {modalStore.delete.isShow && (
+        <DeleteModal
+          data={modalStore.visited.visitedData}
+          listData={listStore}
+        />
+      )}
     </SafeAreaView>
   );
 }
