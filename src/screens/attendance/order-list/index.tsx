@@ -14,19 +14,19 @@ import { useListStore } from "../../../store/list-store";
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../../services/list-service";
+import list from "../../../services/list-service";
 
 export default function OrderScreen() {
   const modalStore = useModalStore((state) => state.order);
   const listStore = useListStore((state) => state.order);
 
   useEffect(() => {
-    fetchList(listStore.setListData, listStore.endpoint);
+    list.fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchList(listStore.setListData, listStore.endpoint);
+      list.fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (

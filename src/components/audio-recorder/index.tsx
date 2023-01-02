@@ -60,7 +60,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({
     const uri = recording?.getURI();
     //  Recording stopped and stored at", uri
     setAudioUri(uri);
-    setFieldValue("audio", uri);
+    setFieldValue("recording", uri);
   }
 
   async function playSound() {
