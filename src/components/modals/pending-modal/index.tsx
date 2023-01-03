@@ -14,10 +14,11 @@ import Modal from "react-native-modal";
 
 //styles
 import { styles } from "./styles";
+import { theme } from "../../../styles/theme";
 
 //hooks
 import { useModalStore } from "../../../store/modal-store";
-import { theme } from "../../../styles/theme";
+import { useListStore } from "../../../store/list-store";
 
 //libs
 import { Field, Formik, FieldArray } from "formik";
@@ -25,6 +26,7 @@ import * as yup from "yup";
 
 //services
 import pending from "../../../services/pending-services";
+import list from "../../../services/list-service";
 
 const PendingListValidationSchema = yup.object().shape({
   age: yup
@@ -38,6 +40,7 @@ const PendingListValidationSchema = yup.object().shape({
 
 export default function PendingModal() {
   const modalStore = useModalStore((state) => state);
+  const listStore = useListStore((state) => state.pending);
 
   const [message, setMessage] = useState({
     text: "",
@@ -102,16 +105,21 @@ export default function PendingModal() {
               remark: "",
             }}
             validationSchema={PendingListValidationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              pending.visitUser(values, setSubmitting, setMessage);
-              // setTimeout(() => {
-              //   modalStore.pending.hide();
-              //   setMessage({
-              //     text: "",
-              //     type: "",
-              //   });
-              // }, 2000);
-              // console.log(values);
+            onSubmit={async (values, { setSubmitting }) => {
+              const pendingStatus = await pending.visitUser(
+                values,
+                setSubmitting,
+                setMessage
+              );
+              pendingStatus &&
+                setTimeout(() => {
+                  modalStore.pending.hide();
+                  setMessage({
+                    text: "",
+                    type: "",
+                  });
+                }, 2000);
+              list.fetchList(listStore.setListData, listStore.endpoint);
             }}
           >
             {({
@@ -169,6 +177,17 @@ export default function PendingModal() {
                     {errors.shelterStatus}
                   </Text>
                 )}
+                {shelterValue === "rent" && (
+                  <Field
+                    component={Input}
+                    name="rentAmount"
+                    placeholder="Rent Amount"
+                    placeholderTextColor={theme.colors.foreground}
+                    style={styles.input}
+                    keyboardType="numeric"
+                  />
+                )}
+
                 <DropDownPicker
                   listMode="SCROLLVIEW"
                   zIndex={2000}

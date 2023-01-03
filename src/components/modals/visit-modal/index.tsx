@@ -19,11 +19,23 @@ import { theme } from "../../../styles/theme";
 
 //hooks
 import { useModalStore } from "../../../store/modal-store";
+import { useListStore } from "../../../store/list-store";
+
+//env var
 import { API_URL } from "@env";
+
+//services
+import visit from "../../../services/visit-service";
+import list from "../../../services/list-service";
 
 export default function VisitedModal() {
   const modalStore = useModalStore((state) => state);
+  const listStore = useListStore((state) => state.visited);
 
+  const [message, setMessage] = useState({
+    text: "",
+    type: "",
+  });
   const [audio, setAudio] = useState<Audio.Sound>();
   const [playing, setPlaying] = useState(false);
 
@@ -31,7 +43,7 @@ export default function VisitedModal() {
     try {
       // Loading Sound
       const { sound } = await Audio.Sound.createAsync({
-        uri: `${API_URL}${modalStore.visited.visitedData.recording}`,
+        uri: `${API_URL}/assets/${modalStore.visited.visitedData.recording}`,
       });
       setAudio(sound);
       // Souncd loaded
@@ -79,7 +91,7 @@ export default function VisitedModal() {
             {modalStore.visited.visitedData.image && (
               <Img
                 source={{
-                  uri: `${API_URL}${modalStore.visited.visitedData.image}`,
+                  uri: `${API_URL}/assets/${modalStore.visited.visitedData.image}`,
                 }}
                 width="100%"
                 height="100%"
@@ -114,21 +126,36 @@ export default function VisitedModal() {
             <Text variant="headerSm">Play</Text>
           </View>
 
+          <Text variant="headerSm" ml={12} mb={8} color="primary">
+            Name
+          </Text>
           <TextInput
             value={modalStore.visited.visitedData.name}
             style={styles.input}
             editable={false}
           />
+
+          <Text variant="headerSm" ml={12} mb={8} color="primary">
+            Phone Number
+          </Text>
           <TextInput
             value={modalStore.visited.visitedData.phone}
             style={styles.input}
             editable={false}
           />
+
+          <Text variant="headerSm" ml={12} mb={8} color="primary">
+            Sex
+          </Text>
           <TextInput
             value={modalStore.visited.visitedData.sex}
             style={styles.input}
             editable={false}
           />
+
+          <Text variant="headerSm" ml={12} mb={8} color="primary">
+            Address
+          </Text>
           <TextInput
             value={modalStore.visited.visitedData.address}
             style={styles.input}
@@ -137,17 +164,24 @@ export default function VisitedModal() {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-around",
+              justifyContent: "space-between",
             }}
           >
             <View
               style={{ flexDirection: "column", width: horizontalScale(151) }}
             >
+              <Text variant="headerSm" ml={12} mb={8} color="primary">
+                Age
+              </Text>
               <TextInput
                 value={String(modalStore.visited.visitedData.age)}
                 style={styles.input}
                 editable={false}
               />
+
+              <Text variant="headerSm" ml={12} mb={8} color="primary">
+                Shelter Status
+              </Text>
               <TextInput
                 value={String(modalStore.visited.visitedData?.shelterStatus)}
                 style={styles.input}
@@ -157,19 +191,31 @@ export default function VisitedModal() {
             <View
               style={{ flexDirection: "column", width: horizontalScale(151) }}
             >
+              <Text variant="headerSm" ml={12} mb={8} color="primary">
+                Marital Status
+              </Text>
               <TextInput
-                value={String(modalStore.visited.visitedData?.maritalStatus)}
+                value={modalStore.visited.visitedData.maritalStatus}
                 style={styles.input}
                 editable={false}
+                placeholder="Marital"
               />
+
+              <Text variant="headerSm" ml={12} mb={8} color="primary">
+                Rent Amount
+              </Text>
               <TextInput
                 value={String(modalStore.visited.visitedData.rentAmount)}
                 style={styles.input}
                 editable={false}
+                placeholder="Rent"
               />
             </View>
           </View>
 
+          <Text variant="headerSm" ml={12} mb={8} color="primary">
+            Remark
+          </Text>
           <Card height={126} style={styles.input}>
             <Text>{modalStore.visited.visitedData.remark || "Remark"}</Text>
           </Card>
@@ -188,6 +234,21 @@ export default function VisitedModal() {
               mt={50}
               borderRadius={30}
               width={145}
+              onPress={() => {
+                const visitedStatus = visit.addToAttendance(
+                  modalStore.visited.visitedData.id,
+                  setMessage
+                );
+                visitedStatus &&
+                  setTimeout(() => {
+                    setMessage({
+                      text: "",
+                      type: "",
+                    });
+                    modalStore.visited.hide();
+                  }, 2000);
+                list.fetchList(listStore.setListData, listStore.endpoint);
+              }}
             />
             <Button
               label="Delete"
@@ -203,6 +264,17 @@ export default function VisitedModal() {
               }}
             />
           </View>
+
+          <Text
+            variant="headerSm"
+            color={message.type === "ERROR" ? "failure" : "success"}
+            style={{
+              textAlign: "center",
+            }}
+            mt={10}
+          >
+            {message.text}
+          </Text>
         </Card>
       </ScrollView>
     </Modal>
