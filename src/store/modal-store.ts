@@ -1,7 +1,7 @@
 import produce from "immer";
 import create from "zustand";
 import { BeneficiaryModel } from "../models/beneficiary-models";
-import { VisitPendingUserRequest } from "../models/pending-models";
+import { PendingUserModel } from "../models/pending-models";
 import { VisitedUserModel } from "../models/visited-models";
 
 export interface ModalStore {
@@ -26,8 +26,8 @@ export interface ModalStore {
   };
   pending: {
     isShow: boolean;
-    pendingData: VisitPendingUserRequest;
-    show: (data: VisitPendingUserRequest) => void;
+    pendingData: PendingUserModel;
+    show: (data: PendingUserModel) => void;
     hide: () => void;
     toggle: () => void;
   };
@@ -119,7 +119,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   pending: {
     isShow: false,
-    pendingData: <VisitPendingUserRequest>{},
+    pendingData: <PendingUserModel>{},
     show: (data) => {
       set(
         produce<ModalStore>((state) => {
