@@ -64,9 +64,8 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({ data, listData }) => {
           label="Yes"
           onPress={() => {
             //delete
-            list.deleteFromList(listData.endpoint, data.id);
+            list.deleteFromList(listData, data.id);
             modalStore.delete.hide();
-            list.fetchList(listData.setListData, listData.endpoint);
           }}
         />
       </Card>

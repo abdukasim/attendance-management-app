@@ -17,7 +17,7 @@ import { useListStore } from "../../../store/list-store";
 import { styles } from "./styles";
 
 //services
-import { fetchList } from "../../../services/list-service";
+import list from "../../../services/list-service";
 
 export default function AttendanceScreen() {
   const [clicked, setClicked] = useState(false);
@@ -30,12 +30,12 @@ export default function AttendanceScreen() {
   );
 
   useEffect(() => {
-    fetchList(listStore.setListData, listStore.endpoint);
+    list.fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      fetchList(listStore.setListData, listStore.endpoint);
+      list.fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (
