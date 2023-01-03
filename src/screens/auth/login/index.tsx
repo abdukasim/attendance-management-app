@@ -97,6 +97,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   textColor="background"
                   bgColor="primary"
                   mt={50}
+                  height={60}
                   onPress={() => handleSubmit()}
                 />
               )}
@@ -107,8 +108,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   textColor="background"
                   bgColor="primary"
                   mt={50}
+                  height={60}
                 >
-                  <ActivityIndicator size="large" color="white" />
+                  <ActivityIndicator size="small" color="white" />
                 </Button>
               )}
               <Text
