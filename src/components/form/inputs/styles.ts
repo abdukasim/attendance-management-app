@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { verticalScale } from "../../../helpers/metrics";
+import { horizontalScale, verticalScale } from "../../../helpers/metrics";
 import { theme } from "../../../styles/theme";
 
 export const styles = StyleSheet.create({
@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
   },
   label: {
     color: theme.colors.primary,
-    fontSize: 15,
-    fontWeight: "400",
+    ...theme.textVariants.body,
     textAlign: "left",
-    marginBottom: 18,
+    marginBottom: verticalScale(8),
+    marginLeft: horizontalScale(12),
   },
   errorText: {
     fontSize: 10,
