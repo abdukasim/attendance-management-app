@@ -1,25 +1,48 @@
 import React, { useState } from "react";
-import { ScrollView, Switch, TextInput, View } from "react-native";
+
+//components
+import { ActivityIndicator, ScrollView, Switch, View } from "react-native";
 import Modal from "react-native-modal";
-import { useModalStore } from "../../../store/modal-store";
+import { Img } from "../../image";
 import { Button } from "../../button";
 import { Card } from "../../card";
-import { styles } from "../pending-modal/styles";
-import { styles as imgStyles } from "../../imageUploader/styles";
-import { Img } from "../../image";
-import { API_URL } from "@env";
-import { theme } from "../../../styles/theme";
 import { Field, Formik } from "formik";
 import Input from "../../form/inputs";
+import { Text } from "../../text";
+
+//styles
+import { styles } from "../pending-modal/styles";
+import { styles as imgStyles } from "../../imageUploader/styles";
+import { theme } from "../../../styles/theme";
 import { shadowStyle } from "../../../styles/shadow";
 
+//hooks
+import { useModalStore } from "../../../store/modal-store";
+import { useListStore } from "../../../store/list-store";
+
+//env var
+import { API_URL } from "@env";
+
+//services
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
+import attendance from "../../../services/attendance-services";
+import list from "../../../services/list-service";
 
 export default function BeneficiariesModal() {
   const modalStore = useModalStore((state) => state);
-  const [edit, setEdit] = useState(false);
+  const listStore = useListStore((state) => state.beneficiaries);
 
+  const [edit, setEdit] = useState(false);
+  const [message, setMessage] = useState({
+    text: "",
+    type: "",
+  });
+
+  let children =
+    modalStore.beneficiaries.beneficiariesData.children === ""
+      ? ""
+      : JSON.parse(modalStore.beneficiaries.beneficiariesData.children);
   const html = `
     <html>
       <head>
@@ -48,13 +71,13 @@ export default function BeneficiariesModal() {
       </head>
       <body>
           <div>
-            <img src="http://api.muntahafoundation.org/assets/imgs/MuntahaFoundationLogo.png" alt="Muntaha Foundation" width="100" height="150" />
+            <img src="${API_URL}/assets/imgs/MuntahaFoundationLogo.png" alt="Muntaha Foundation" width="100" height="150" />
             <hr />
             <div className="content-wrapper">
               <h4>Image</h4>
-            <img src="http://api.muntahafoundation.org${
-              modalStore.beneficiaries.beneficiariesData.image
-            }" alt=${
+            <img src="${API_URL}/assets/${
+    modalStore.beneficiaries.beneficiariesData.image
+  }" alt=${
     modalStore.beneficiaries.beneficiariesData.name
   } width="100" height="100" style={border-radius: 999} />
             </div>
@@ -84,8 +107,13 @@ export default function BeneficiariesModal() {
           </div>
           <div className="content-wrapper">
           ${
-            modalStore.beneficiaries.beneficiariesData.children?.length
-              ? modalStore.beneficiaries.beneficiariesData.children.map(
+            children === "" || children[0].name === ""
+              ? `
+              <div>
+                <h4>Children</h4>
+                <p className="content-text">0</p>
+              </div>`
+              : children.map(
                   (child: any) =>
                     `<div key={index} className="child-list">
                     <h4>Child Name</h4>
@@ -96,11 +124,6 @@ export default function BeneficiariesModal() {
                   <p className="content-text">${child.schooling}</p>
                 </div>`
                 )
-              : `
-              <div>
-                <h4>Children</h4>
-                <p className="content-text">${modalStore.beneficiaries.beneficiariesData.children?.length}</p>
-              </div>`
           } 
         </div>
           </div>
@@ -152,18 +175,29 @@ export default function BeneficiariesModal() {
             }}
             onSubmit={(values, { setSubmitting }) => {
               //edit function call
-              setTimeout(() => {
-                modalStore.beneficiaries.hide();
-              }, 2000);
+              const editStatus = attendance.editBeneficiary(
+                values,
+                setSubmitting,
+                setMessage
+              );
+              editStatus &&
+                setTimeout(() => {
+                  setMessage({
+                    text: "",
+                    type: "",
+                  });
+                  modalStore.beneficiaries.hide();
+                }, 2000);
+              list.fetchList(listStore.setListData, listStore.endpoint);
             }}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, isSubmitting }) => (
               <>
                 <View style={imgStyles.imageContainer}>
                   {modalStore.beneficiaries.beneficiariesData.image && (
                     <Img
                       source={{
-                        uri: `${API_URL}${modalStore.beneficiaries.beneficiariesData.image}`,
+                        uri: `${API_URL}/assets/${modalStore.beneficiaries.beneficiariesData.image}`,
                       }}
                       width="100%"
                       height="100%"
@@ -185,6 +219,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="name"
+                  label="Name"
                   placeholder="Name"
                   style={styles.input}
                   editable={edit}
@@ -192,6 +227,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="sex"
+                  label="Sex"
                   placeholder="Sex"
                   style={styles.input}
                   editable={edit}
@@ -199,6 +235,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="age"
+                  label="Age"
                   placeholder="Age"
                   style={styles.input}
                   editable={edit}
@@ -206,6 +243,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="phone"
+                  label="Phone"
                   placeholder="Phone"
                   style={styles.input}
                   editable={edit}
@@ -213,6 +251,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="address"
+                  label="Address"
                   placeholder="Address"
                   style={styles.input}
                   editable={edit}
@@ -220,6 +259,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="maritalStatus"
+                  label="Marital Status"
                   placeholder="Marital Status"
                   style={styles.input}
                   editable={edit}
@@ -227,6 +267,7 @@ export default function BeneficiariesModal() {
                 <Field
                   component={Input}
                   name="jobStatus"
+                  label="Job Status"
                   placeholder="Job Status"
                   style={styles.input}
                   editable={edit}
@@ -237,20 +278,34 @@ export default function BeneficiariesModal() {
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-around",
-                      marginBottom: 22,
+                      marginTop: 18,
                     }}
                   >
                     {/* TODO edit api call */}
-                    <Button
-                      width={145}
-                      label="Edit"
-                      textColor="foreground"
-                      bgColor="secondary"
-                      pv={12}
-                      borderRadius={30}
-                      style={shadowStyle.shadow}
-                      onPress={() => handleSubmit()}
-                    />
+                    {!isSubmitting && (
+                      <Button
+                        width={145}
+                        label="Edit"
+                        textColor="foreground"
+                        bgColor="secondary"
+                        pv={12}
+                        borderRadius={30}
+                        style={shadowStyle.shadow}
+                        onPress={() => handleSubmit()}
+                      />
+                    )}
+                    {isSubmitting && (
+                      <Button
+                        width={145}
+                        textColor="foreground"
+                        bgColor="secondary"
+                        pv={12}
+                        borderRadius={30}
+                        style={shadowStyle.shadow}
+                      >
+                        <ActivityIndicator size="small" color="white" />
+                      </Button>
+                    )}
                     {/* TODO delete api call */}
                     <Button
                       width={145}
@@ -273,10 +328,22 @@ export default function BeneficiariesModal() {
                   textColor="background"
                   bgColor="primary"
                   pv={12}
+                  mt={22}
                   borderRadius={30}
                   style={{ width: "100%" }}
                   onPress={() => createAndSavePDF(html)}
                 />
+
+                <Text
+                  variant="headerSm"
+                  color={message.type === "ERROR" ? "failure" : "success"}
+                  style={{
+                    textAlign: "center",
+                  }}
+                  mt={10}
+                >
+                  {message.text}
+                </Text>
               </>
             )}
           </Formik>

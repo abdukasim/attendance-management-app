@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //components
 import { TouchableOpacity, View } from "react-native";
@@ -14,16 +14,22 @@ import { useModalStore } from "../../../store/modal-store";
 
 //services
 import attendance from "../../../services/attendance-services";
+import { useListStore } from "../../../store/list-store";
 
 interface AttendanceModalProps {}
 
 export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
-  const modaleStore = useModalStore((state) => state);
+  const modalStore = useModalStore((state) => state);
+
+  const [message, setMessage] = useState({
+    text: "",
+    type: "",
+  });
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => modaleStore.attendance.hide()}
+        onPress={() => modalStore.attendance.hide()}
         style={styles.backdrop}
       ></TouchableOpacity>
       <Card
@@ -35,11 +41,12 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
         px={28}
       >
         <Text color="background" variant="headerLg">
-          {modaleStore.attendance.attendeeData.name}
+          {modalStore.attendance.attendeeData.name}
         </Text>
         <Text color="background" variant="headerSm" mb={28}>
-          {modaleStore.attendance.attendeeData.muntahaId}
+          {modalStore.attendance.attendeeData.muntahaId}
         </Text>
+
         <Button
           borderRadius={30}
           pv={12}
@@ -47,7 +54,20 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           textColor="foreground"
           label="Present"
           mb={12}
-          onPress={() => attendance.markPresent()}
+          onPress={() => {
+            const attendanceStatus = attendance.markPresent(
+              modalStore.attendance.attendeeData.id,
+              setMessage
+            );
+            attendanceStatus &&
+              setTimeout(() => {
+                setMessage({
+                  text: "",
+                  type: "",
+                });
+                modalStore.visited.hide();
+              }, 2000);
+          }}
         />
         <Button
           borderRadius={30}
@@ -55,8 +75,32 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           bgColor="background"
           textColor="foreground"
           label="Permission"
-          onPress={() => attendance.givePermisssion()}
+          onPress={() => {
+            const permessionStatus = attendance.givePermisssion(
+              modalStore.attendance.attendeeData.id,
+              setMessage
+            );
+            permessionStatus &&
+              setTimeout(() => {
+                setMessage({
+                  text: "",
+                  type: "",
+                });
+                modalStore.visited.hide();
+              }, 2000);
+          }}
         />
+        {message && (
+          <Text
+            variant="headerSm"
+            color={message.type === "ERROR" ? "failure" : "success"}
+            style={{
+              textAlign: "center",
+            }}
+          >
+            {message.text}
+          </Text>
+        )}
       </Card>
     </View>
   );
