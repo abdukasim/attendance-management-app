@@ -1,25 +1,30 @@
 import React, { useRef, useState } from "react";
+
+//components
 import { Box } from "../../../components/box";
 import { Img } from "../../../components/image";
 import { Text } from "../../../components/text";
-import * as yup from "yup";
+import Input from "../../../components/form/inputs";
+import Checkbox from "../../../components/form/checkbox";
+import KeyboardAvoidingWrapper from "../../../components/keyboard-avoiding-wrapper";
+import { Button } from "../../../components/button";
+import { ActivityIndicator, View } from "react-native";
+
+//libs
 import { Field, Formik } from "formik";
+
+//types
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../navigation/types";
-import Input from "../../../components/form/inputs";
-import { ActivityIndicator, View } from "react-native";
-import Checkbox from "../../../components/form/checkbox";
-import { Button } from "../../../components/button";
+import { LoginValidationSchema } from "../../../helpers/validationSchemas";
+
+//styles
 import { styles } from "./styles";
-import KeyboardAvoidingWrapper from "../../../components/keyboard-avoiding-wrapper";
+
+//services
 import { auth } from "../../../services/auth-service";
 
 type LoginScreenProps = NativeStackScreenProps<MainStackParamList, "Login">;
-
-const LoginValidationSchema = yup.object().shape({
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-});
 
 interface LoginFormValues {
   username: string;
