@@ -61,8 +61,8 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
       >
         <View>
           <Text variant="subtitle">{item.name}</Text>
-          {item.muntahaID ? (
-            <Text variant="body">{item.muntahaID}</Text>
+          {item.muntahaId ? (
+            <Text variant="body">{item.muntahaId}</Text>
           ) : (
             <>
               <Text variant="body">{item.address}</Text>

@@ -22,21 +22,11 @@ import { useListStore } from "../../../store/list-store";
 
 //libs
 import { Field, Formik, FieldArray } from "formik";
-import * as yup from "yup";
 
 //services
 import pending from "../../../services/pending-services";
 import list from "../../../services/list-service";
-
-const PendingListValidationSchema = yup.object().shape({
-  age: yup
-    .number()
-    .required("Age is required")
-    .typeError("Please enter a number"),
-  shelterStatus: yup.string().required("Shelter Status is required"),
-  jobStatus: yup.string().required("Job Status is required"),
-  maritalStatus: yup.string().required("Marital Status is required"),
-});
+import { PendingListValidationSchema } from "../../../helpers/validationSchemas";
 
 export default function PendingModal() {
   const modalStore = useModalStore((state) => state);

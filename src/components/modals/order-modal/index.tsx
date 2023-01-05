@@ -11,16 +11,22 @@ import { styles } from "./styles";
 
 //hooks
 import { useModalStore } from "../../../store/modal-store";
+import { useListStore } from "../../../store/list-store";
+
+//services
+import attendance from "../../../services/attendance-services";
+import list from "../../../services/list-service";
 
 interface OrderModalProps {}
 
 export const OrderModal: React.FC<OrderModalProps> = () => {
-  const modaleStore = useModalStore((state) => state.order);
+  const modalStore = useModalStore((state) => state.order);
+  const listStore = useListStore((state) => state.order);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => modaleStore.hide()}
+        onPress={() => modalStore.hide()}
         style={styles.backdrop}
       ></TouchableOpacity>
       <Card
@@ -32,10 +38,10 @@ export const OrderModal: React.FC<OrderModalProps> = () => {
         px={28}
       >
         <Text color="background" variant="headerLg">
-          {modaleStore.orderData.name}
+          {modalStore.orderData.name}
         </Text>
         <Text color="background" variant="headerSm" mb={28}>
-          {modaleStore.orderData.muntahaID}
+          {modalStore.orderData.muntahaId}
         </Text>
         <Button
           borderRadius={30}
@@ -44,7 +50,13 @@ export const OrderModal: React.FC<OrderModalProps> = () => {
           textColor="foreground"
           label="Remove"
           mb={12}
-          onPress={() => {}}
+          onPress={() => {
+            const orderStatus = attendance.removeFromOrderList(
+              modalStore.orderData.id
+            );
+            orderStatus && modalStore.hide();
+            list.fetchList(listStore.setListData, listStore.endpoint);
+          }}
         />
         {/* TODO order modal services */}
       </Card>
