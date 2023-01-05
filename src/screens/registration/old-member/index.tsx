@@ -1,20 +1,27 @@
-import {
-  View,
-  SafeAreaView,
-  ActivityIndicator,
-  ScrollView,
-} from "react-native";
 import React, { useState } from "react";
-import { styles } from "./styles";
+
+//components
+import { View, SafeAreaView, ActivityIndicator } from "react-native";
 import { Button } from "../../../components/button";
-import { Field, FieldArray, Formik } from "formik";
 import { ImageUploader } from "../../../components/imageUploader";
 import Input from "../../../components/form/inputs";
-import { theme } from "../../../styles/theme";
-import DropDownPicker from "react-native-dropdown-picker";
 import { Text } from "../../../components/text";
 import { CustomRadioButton } from "../../../components/form/radio-button";
 import KeyboardAvoidingWrapper from "../../../components/keyboard-avoiding-wrapper";
+
+//styles
+import { styles } from "./styles";
+import { theme } from "../../../styles/theme";
+
+//libs
+import { Field, FieldArray, Formik } from "formik";
+import DropDownPicker from "react-native-dropdown-picker";
+
+//services
+import { registration } from "../../../services/registration-services";
+
+//schema
+import { OldMemberRegistrationValidationSchema } from "../../../helpers/validationSchemas";
 
 export default function OldMemeberRegistration() {
   const [message, setMessage] = useState({
@@ -40,6 +47,13 @@ export default function OldMemeberRegistration() {
   const [openMarital, setOpenMarital] = useState(false);
   const [maritalValue, setMaritalValue] = useState(null);
 
+  const [sexOptions, setSexOptions] = useState([
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+  ]);
+  const [openSex, setOpenSex] = useState(false);
+  const [sexValue, setSexValue] = useState(null);
+
   const [radioButton, setRadioButton] = useState(-1);
 
   const radio_props = [
@@ -52,28 +66,33 @@ export default function OldMemeberRegistration() {
       <SafeAreaView style={styles.container}>
         <Formik
           initialValues={{
-            //   id: modalStore.pendingData.id,
             image: "",
-            recording: "",
-            age: "",
+            name: "",
+            address: "",
+            sex: "",
+            phone: "",
+            age: 0,
             maritalStatus: "",
             children: [{ name: "", age: "", schooling: "" }],
             jobStatus: "",
             shelterStatus: "",
-            rent: "",
+            rentAmount: 0,
             remark: "",
           }}
-          // validationSchema={PendingListValidationSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            //   handlePendingListForm(values, setSubmitting, setMessage);
-            //   setTimeout(() => {
-            //     modalStore.hide();
-            //     setMessage({
-            //       text: "",
-            //       type: "",
-            //     });
-            //   }, 2000);
-            console.log(values);
+          validationSchema={OldMemberRegistrationValidationSchema}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            const oldRegStatus = registration.old(
+              values,
+              setSubmitting,
+              setMessage
+            );
+            oldRegStatus && resetForm();
+            setTimeout(() => {
+              setMessage({
+                text: "",
+                type: "",
+              });
+            }, 2000);
           }}
         >
           {({
@@ -93,8 +112,58 @@ export default function OldMemeberRegistration() {
               />
               <Field
                 component={Input}
+                name="name"
+                placeholder="Name"
+                placeholderTextColor={theme.colors.foreground}
+                // blurOnSubmit={false}
+                style={styles.input}
+              />
+              <Field
+                component={Input}
                 name="age"
                 placeholder="Age"
+                placeholderTextColor={theme.colors.foreground}
+                // blurOnSubmit={false}
+                style={styles.input}
+                keyboardType="numeric"
+              />
+              <DropDownPicker
+                listMode="SCROLLVIEW"
+                zIndex={3000}
+                zIndexInverse={1000}
+                placeholder="Sex"
+                open={openSex}
+                value={sexValue}
+                items={sexOptions}
+                setOpen={setOpenSex}
+                setValue={setSexValue}
+                setItems={setSexOptions}
+                onChangeValue={(value) => {
+                  setFieldTouched("sex", true);
+                  setFieldValue("sex", value);
+                }}
+                style={[
+                  styles.input,
+                  errors.sex && touched.sex ? styles.errorInput : null,
+                ]}
+              />
+              {errors.sex && touched.sex && (
+                <Text color="failure" variant="body" ml={10} mb={12}>
+                  {errors.sex}
+                </Text>
+              )}
+              <Field
+                component={Input}
+                name="address"
+                placeholder="Address"
+                placeholderTextColor={theme.colors.foreground}
+                // blurOnSubmit={false}
+                style={styles.input}
+              />
+              <Field
+                component={Input}
+                name="phone"
+                placeholder="Phone"
                 placeholderTextColor={theme.colors.foreground}
                 // blurOnSubmit={false}
                 style={styles.input}
@@ -127,6 +196,18 @@ export default function OldMemeberRegistration() {
                   {errors.shelterStatus}
                 </Text>
               )}
+
+              {shelterValue === "rent" && (
+                <Field
+                  component={Input}
+                  name="rentAmount"
+                  placeholder="Rent Amount"
+                  placeholderTextColor={theme.colors.foreground}
+                  style={styles.input}
+                  keyboardType="numeric"
+                />
+              )}
+
               <DropDownPicker
                 listMode="SCROLLVIEW"
                 zIndex={2000}
