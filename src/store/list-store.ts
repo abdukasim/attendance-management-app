@@ -53,7 +53,9 @@ export const useListStore = create<ListStore>((set) => ({
     setListData: (data) => {
       set(
         produce<ListStore>((state) => {
-          state.order.listData = data;
+          state.order.listData = data.filter(
+            (item: any) => item.active
+          ) as never;
         })
       );
     },
