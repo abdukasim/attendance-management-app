@@ -11,7 +11,8 @@ export interface FetchBeneficiaryListResponse {
 }
 
 export interface RegisterBeneficiaryRequest
-  extends Omit<BeneficiaryModel, "id"> {}
+  extends Omit<BeneficiaryModel, "id" | "muntahaId"> {}
+
 export interface RegisterBeneficiaryResponse {}
 
 export interface UpdateBeneficiaryRequest extends Partial<BeneficiaryModel> {

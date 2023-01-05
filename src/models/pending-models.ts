@@ -3,7 +3,7 @@ import { VisitedUserAfter } from "./visited-models";
 export interface PendingUserModel {
   id: number;
   name: string;
-  sex: "male" | "female" | "";
+  sex: "male" | "female" | "" | string;
   phone: string;
   address: string;
 }
