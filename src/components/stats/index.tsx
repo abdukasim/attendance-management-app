@@ -1,35 +1,52 @@
-import { View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
+
+//components
+import { View } from "react-native";
 import { Card } from "../card";
 import { Text } from "../text";
+
+//icons
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+
+//styles
 import { styles } from "./styles";
 import { theme } from "../../styles/theme";
-import { io, Socket } from "socket.io-client";
-import { DefaultEventsMap } from "@socket.io/component-emitter";
 
-import { API_URL } from "@env";
+//libs
+import { io } from "socket.io-client";
+
+//env vars
+import { SOCKET_API_URL } from "@env";
 
 export default function Stats() {
   const [presentAttendees, setPresentAttendees] = useState(0);
   const [servedMeals, setServedMeals] = useState(0);
   const [beneficiaries, setBenefeciaries] = useState(0);
 
-  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap>>();
+  const socket = io(SOCKET_API_URL);
 
   useEffect(() => {
-    socketRef.current = io(API_URL);
-    socketRef.current.on("present_count", (count: number) => {
+    socket.emit("getPresentCount");
+    socket.emit("getMealServed");
+    socket.emit("getBeneficiaryCount");
+
+    return () => {
+      socket && socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("presentCount", (count: any) => {
       setPresentAttendees(count);
     });
-    socketRef.current.on("meal_count", (count: number) => {
+    socket.on("mealServed", (count: number) => {
       setServedMeals(count);
     });
-    socketRef.current.on("client_count", (count: number) => {
+    socket.on("beneficiaryCount", (count: number) => {
       setBenefeciaries(count);
     });
     return () => {
-      socketRef.current && socketRef.current.disconnect();
+      socket && socket.disconnect();
     };
   }, [presentAttendees, servedMeals, beneficiaries]);
 
