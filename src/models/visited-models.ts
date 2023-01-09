@@ -2,7 +2,7 @@ import { PendingUserModel } from "./pending-models";
 
 export interface VisitedUserBefore extends PendingUserModel {}
 export interface VisitedUserAfter {
-  age: number;
+  age: string;
   maritalStatus: string;
   children: any;
   jobStatus: string;
