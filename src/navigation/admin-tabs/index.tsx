@@ -1,16 +1,4 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
-import {
-  AttendanceIcon,
-  PendingIcon,
-  ReportIcon,
-  StarIcon,
-  VisitedIcon,
-} from "../../../assets/svg/icons";
-import { Logout } from "../../components/logout";
-import { moderateScale, verticalScale } from "../../helpers/metrics";
+//screens
 import {
   BeneficiariesListScreen,
   PendingListScreen,
@@ -18,7 +6,29 @@ import {
   VisitedListScreen,
 } from "../../screens/admin";
 import AttendanceScreen from "../../screens/attendance/attendance-list";
+
+//libs
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { moderateScale, verticalScale } from "../../helpers/metrics";
+
+//icons
+import {
+  AttendanceIcon,
+  PendingIcon,
+  ReportIcon,
+  StarIcon,
+  VisitedIcon,
+} from "../../../assets/svg/icons";
+
+//components
+import { Logout } from "../../components/logout";
+
+//styles
 import { theme } from "../../styles/theme";
+
+//types
 import { AdminTabParamList, MainStackParamList } from "../types";
 
 type AdminScreenProps = NativeStackScreenProps<MainStackParamList, "ADMIN">;
