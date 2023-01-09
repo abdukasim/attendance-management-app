@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 //components
 import { Box } from "../../../components/box";
@@ -23,6 +23,7 @@ import { styles } from "./styles";
 
 //services
 import { auth } from "../../../services/auth-service";
+import { useSessionStore } from "../../../store/session-store";
 
 type LoginScreenProps = NativeStackScreenProps<MainStackParamList, "Login">;
 
@@ -36,10 +37,18 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [hidePassword, setHidePassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const sessionStore = useSessionStore((state) => state);
+
   const initialValues: LoginFormValues = {
     username: "",
     password: "",
   };
+
+  useEffect(() => {
+    if (sessionStore.authUser !== null) {
+      navigation.replace(sessionStore.authUser.type as any);
+    }
+  }, []);
 
   return (
     <KeyboardAvoidingWrapper>
@@ -62,7 +71,13 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           initialValues={initialValues}
           validationSchema={LoginValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            auth.login(values, navigation, setErrorMessage, setSubmitting);
+            auth.login(
+              values,
+              navigation,
+              setErrorMessage,
+              setSubmitting,
+              sessionStore.setAuthUser
+            );
           }}
         >
           {({ handleSubmit, isSubmitting }) => (
@@ -89,6 +104,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   type="password"
                   secureTextEntry={hidePassword}
                   setHidePassword={setHidePassword}
+                  hidePassword={hidePassword}
                   onSubmitEditing={() => handleSubmit()}
                   style={styles.input}
                 />
