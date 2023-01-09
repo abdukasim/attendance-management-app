@@ -13,7 +13,11 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <MainNavigation />
-        <StatusBar />
+        <StatusBar
+          backgroundColor={"transparent"}
+          translucent
+          style="inverted"
+        />
       </SafeAreaProvider>
     );
   }
