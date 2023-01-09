@@ -19,7 +19,7 @@ interface InputProps extends React.ComponentProps<typeof TextInput> {
   field: FieldInputProps<string>;
   form: FormikProps<any>;
   style?: any;
-  hidePassword?: any;
+  hidePassword?: boolean;
   setHidePassword?: any;
 }
 
@@ -60,7 +60,9 @@ export default function Input({
       {type === "password" && (
         <TouchableOpacity
           style={styles.rightIcon}
-          onPress={() => setHidePassword(!hidePassword)}
+          onPress={() => {
+            hidePassword && setHidePassword(!hidePassword);
+          }}
         >
           <FontAwesome size={25} color="#e6e6e6" name="eye-slash" />
         </TouchableOpacity>
