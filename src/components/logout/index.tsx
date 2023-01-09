@@ -8,6 +8,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../navigation/types";
 
+//services
+import storage from "../../services/storage-services";
+import { auth } from "../../services/auth-service";
+
+//hooks
+import { useSessionStore } from "../../store/session-store";
 interface LogoutProps {
   navigation: NativeStackNavigationProp<
     MainStackParamList,
@@ -17,10 +23,14 @@ interface LogoutProps {
 }
 
 export const Logout = ({ navigation }: LogoutProps) => {
+  const sessionStore = useSessionStore((state) => state);
   return (
     <Pressable
-      onPress={() => {
+      onPress={async () => {
+        await storage.removeValue("sessionData");
+        sessionStore.setAuthUser(null as never);
         navigation.replace("Login");
+        await auth.logout();
       }}
     >
       <View
