@@ -1,5 +1,5 @@
-import { View, SafeAreaView, TextInput } from "react-native";
-import React, { useState } from "react";
+import { View, SafeAreaView, TextInput, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
 import { Text } from "../../../components/text";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -8,15 +8,122 @@ import { theme } from "../../../styles/theme";
 import { Card } from "../../../components/card";
 import { Button } from "../../../components/button";
 import { shadowStyle } from "../../../styles/shadow";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
+import { reports } from "../../../services/report-services";
+import { AbsentReportListModel } from "../../../models/report";
+
+import { API_URL } from "@env";
+import { createAndSavePDF } from "../../../services/pdf-services";
 
 export function ReportScreen() {
-  const [durationOptions, setDurationOptions] = useState([
-    { label: "Daily", value: "daily" },
-    { label: "Weekly", value: "week" },
-    { label: "Monthly", value: "month" },
-  ]);
-  const [openDuration, setOpenDuration] = useState(false);
-  const [durationValue, setDuationValue] = useState("week");
+  const [showStartDate, setShowStartDate] = useState(false);
+  const [showEndDate, setShowEndDate] = useState(false);
+  const [startDate, setStartDate] = useState({
+    timestamp: new Date(),
+    date: "",
+  });
+  const [endDate, setEndDate] = useState({ timestamp: new Date(), date: "" });
+
+  const [attendanceReport, setAttendanceReport] = useState([]);
+  const [attendanceReportSummary, setAttendanceReportSummary] = useState({
+    present: 0,
+    absent: 0,
+    permission: 0,
+  });
+  const [absentReport, setAbsentReport] = useState([]);
+
+  useEffect(() => {
+    reports.getAttendanceReport(
+      startDate.timestamp,
+      endDate.timestamp,
+      setAttendanceReport,
+      setAttendanceReportSummary
+    );
+    reports.getAbsentReport(
+      startDate.timestamp,
+      endDate.timestamp,
+      setAbsentReport
+    );
+  }, [startDate, endDate]);
+
+  const html = `
+    <html>
+      <head>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            text-align: left;
+            padding: 8px;
+          }
+          tr:nth-child(even){background-color: #f2f2f2}
+        </style>
+      </head>
+      <body>
+      <div>
+        <img src="${API_URL}/assets/imgs/logo.png" alt="Muntaha Foundation" width="250" height="auto" />
+      </div>
+
+        <h2>Attendance Report</h2>
+
+        <table>
+          <tr>
+            <th>Duration</th>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Permission</th>
+          </tr>
+          ${attendanceReport
+            .map((item: any) => {
+              return `
+              <tr>
+                <td>
+                ${item.timestamp.slice(0, 10)}
+                </td>
+                <td>${item.present}</td>
+                <td>${item.absent}</td>
+                <td>${item.permission}</td>
+              </tr>
+            `;
+            })
+            .join(" ")}
+            <tr>
+              <th>Total</th>
+              <th>${attendanceReportSummary.present}</th>
+              <th>${attendanceReportSummary.absent}</th>
+              <th>${attendanceReportSummary.permission}</th>
+            </tr>
+        </table>
+
+        <h2>Absent Report</h2>
+
+        <table>
+          <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>ID</th>
+          </tr>
+          ${absentReport
+            .map((item: AbsentReportListModel, index) => {
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item.name}</td>
+                  <td>${item.phone}</td>
+                  <td>${item.muntahaId}</td>
+                </tr>
+              `;
+            })
+            .join(" ")}
+        </table>
+      </body>
+    </html>
+  `;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,38 +132,63 @@ export function ReportScreen() {
           <View style={{ flexDirection: "row" }}>
             <FontAwesome5 name="edit" size={12} color={theme.colors.primary} />
             <Text variant="body" color="primary" ml={9} mb={13}>
-              Select Duration
+              Start Date
             </Text>
           </View>
-          <DropDownPicker
-            listMode="SCROLLVIEW"
-            zIndex={3000}
-            zIndexInverse={1000}
-            placeholder="Shelter Status"
-            open={openDuration}
-            value={durationValue}
-            items={durationOptions}
-            setOpen={setOpenDuration}
-            setValue={setDuationValue}
-            setItems={setDurationOptions}
-            style={styles.pickerInput}
-          />
+          <Pressable onPress={() => setShowStartDate(true)}>
+            <View pointerEvents="none">
+              <TextInput
+                style={styles.pickerInput}
+                placeholder="Include"
+                value={startDate.date}
+              />
+            </View>
+          </Pressable>
+          {showStartDate && (
+            <DateTimePicker
+              mode="date"
+              value={new Date()}
+              maximumDate={new Date()}
+              onChange={(e) => {
+                reports.onDateChange(e, setShowStartDate, setStartDate);
+              }}
+            />
+          )}
         </View>
 
         <View style={styles.selector}>
           <View style={{ flexDirection: "row" }}>
             <Feather name="bar-chart" size={12} color={theme.colors.primary} />
             <Text variant="body" color="primary" ml={9} mb={13}>
-              Report Includes
+              End Date
             </Text>
           </View>
-          <TextInput style={styles.pickerInput} placeholder="Include" />
+          <Pressable onPress={() => setShowEndDate(true)}>
+            <View pointerEvents="none">
+              <TextInput
+                style={styles.pickerInput}
+                placeholder="Include"
+                value={endDate.date}
+              />
+            </View>
+          </Pressable>
+          {showEndDate && (
+            <DateTimePicker
+              mode="date"
+              value={new Date()}
+              maximumDate={new Date()}
+              minimumDate={new Date(startDate.timestamp!)}
+              onChange={(e) => {
+                reports.onDateChange(e, setShowEndDate, setEndDate);
+              }}
+            />
+          )}
         </View>
       </View>
 
       <Text variant="headerSm">Weekly</Text>
       <Text variant="headerXl" color="primary" mb={28}>
-        Nov 12 - Dec 06
+        {startDate.date} - {endDate.date}
       </Text>
 
       <View style={styles.cardsContainer}>
@@ -68,7 +200,7 @@ export function ReportScreen() {
           style={styles.cardFlexStyles}
         >
           <Text variant="title" color="primary">
-            50
+            {attendanceReportSummary.present}
           </Text>
 
           <Text variant="body" color="primary" mt={17} ml={4}>
@@ -84,7 +216,7 @@ export function ReportScreen() {
           style={styles.cardFlexStyles}
         >
           <Text variant="title" color="primary">
-            170
+            {attendanceReportSummary.absent}
           </Text>
 
           <Text variant="body" color="primary" mt={17} ml={4}>
@@ -100,7 +232,7 @@ export function ReportScreen() {
           style={styles.cardFlexStyles}
         >
           <Text variant="title" color="primary">
-            220
+            {attendanceReportSummary.permission}
           </Text>
 
           <Text variant="body" color="primary" mt={17} ml={4}>
@@ -117,6 +249,7 @@ export function ReportScreen() {
         mb={26}
         borderRadius={30}
         style={shadowStyle.shadow}
+        onPress={() => createAndSavePDF(html)}
       />
 
       <Text variant="subtitle" color="primary" mb={18}>
@@ -131,17 +264,13 @@ export function ReportScreen() {
         </View>
 
         <View style={styles.tableSeparator}></View>
-
-        <View style={styles.tableBody}>
-          <Text style={{ flex: 1 }}>01</Text>
-          <Text style={{ flex: 3 }}>Abebe Kebede</Text>
-          <Text style={{ flex: 2 }}>+25191234567</Text>
-        </View>
-        <View style={styles.tableBody}>
-          <Text style={{ flex: 1 }}>01</Text>
-          <Text style={{ flex: 3 }}>Abebech Kebedech</Text>
-          <Text style={{ flex: 2 }}>+25191234567</Text>
-        </View>
+        {absentReport.map((item: AbsentReportListModel, index) => (
+          <View style={styles.tableBody} key={item.muntahaId}>
+            <Text style={{ flex: 1 }}>{index + 1}</Text>
+            <Text style={{ flex: 3 }}>{item.name}</Text>
+            <Text style={{ flex: 2 }}>{item.phone}</Text>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
