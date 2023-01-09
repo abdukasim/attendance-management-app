@@ -13,11 +13,13 @@ export default class pending {
       uri: values.image,
       type: "image/jpg",
     } as unknown as Blob);
-    formData.append("recording", {
-      name: values.recording?.split("/").pop(),
-      uri: values.recording,
-      type: "audio/m4a",
-    } as unknown as Blob);
+
+    values.recording !== "" &&
+      formData.append("recording", {
+        name: values.recording?.split("/").pop(),
+        uri: values.recording,
+        type: "audio/m4a",
+      } as unknown as Blob);
     formData.append("children", JSON.stringify(values.children));
     Object.keys(values).forEach((key) => {
       if (key !== "image" && key !== "recording" && key !== "children") {
