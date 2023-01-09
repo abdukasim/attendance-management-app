@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   rightIcon: {
     right: 15,
-    top: 55,
+    top: 40,
     position: "absolute",
     zIndex: 1,
   },
