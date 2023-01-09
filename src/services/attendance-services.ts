@@ -25,7 +25,7 @@ export default class attendance {
     try {
       const res = url.put(`/permission/${id}`);
       setMessage({
-        text: "Status Changed to Permession Successfully!",
+        text: "Status Changed to permission Successfully!",
         type: "SUCCESS",
       });
       return true;
