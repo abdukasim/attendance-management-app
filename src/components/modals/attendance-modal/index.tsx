@@ -65,7 +65,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
                   text: "",
                   type: "",
                 });
-                modalStore.visited.hide();
+                modalStore.attendance.hide();
               }, 2000);
           }}
         />
@@ -76,17 +76,17 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           textColor="foreground"
           label="Permission"
           onPress={() => {
-            const permessionStatus = attendance.givePermisssion(
+            const permissionStatus = attendance.givePermisssion(
               modalStore.attendance.attendeeData.id,
               setMessage
             );
-            permessionStatus &&
+            permissionStatus &&
               setTimeout(() => {
                 setMessage({
                   text: "",
                   type: "",
                 });
-                modalStore.visited.hide();
+                modalStore.attendance.hide();
               }, 2000);
           }}
         />

@@ -24,10 +24,9 @@ import { useListStore } from "../../../store/list-store";
 import { API_URL } from "@env";
 
 //services
-import * as Print from "expo-print";
-import * as Sharing from "expo-sharing";
 import attendance from "../../../services/attendance-services";
 import list from "../../../services/list-service";
+import { createAndSavePDF } from "../../../services/pdf-services";
 
 export default function BeneficiariesModal() {
   const modalStore = useModalStore((state) => state);
@@ -71,7 +70,7 @@ export default function BeneficiariesModal() {
       </head>
       <body>
           <div>
-            <img src="${API_URL}/assets/imgs/MuntahaFoundationLogo.png" alt="Muntaha Foundation" width="100" height="150" />
+            <img src="${API_URL}/assets/imgs/logo.png" alt="Muntaha Foundation" width="250" height="auto" />
             <hr />
             <div className="content-wrapper">
               <h4>Image</h4>
@@ -130,17 +129,6 @@ export default function BeneficiariesModal() {
       </body>
     </html>
   `;
-  const createAndSavePDF = async (html: any) => {
-    try {
-      const { uri } = await Print.printToFileAsync({
-        html: html,
-        base64: false,
-      });
-      await Sharing.shareAsync(uri);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <Modal
@@ -166,7 +154,7 @@ export default function BeneficiariesModal() {
               // image: "",
               name: modalStore.beneficiaries.beneficiariesData.name,
               sex: modalStore.beneficiaries.beneficiariesData.sex,
-              age: modalStore.beneficiaries.beneficiariesData.age,
+              age: modalStore.beneficiaries.beneficiariesData.age.toString(),
               phone: modalStore.beneficiaries.beneficiariesData.phone,
               address: modalStore.beneficiaries.beneficiariesData.address,
               maritalStatus:
@@ -237,6 +225,7 @@ export default function BeneficiariesModal() {
                   name="age"
                   label="Age"
                   placeholder="Age"
+                  type="number"
                   style={styles.input}
                   editable={edit}
                 />
@@ -322,18 +311,6 @@ export default function BeneficiariesModal() {
                     />
                   </View>
                 )}
-
-                <Button
-                  label="Save as PDF"
-                  textColor="background"
-                  bgColor="primary"
-                  pv={12}
-                  mt={22}
-                  borderRadius={30}
-                  style={{ width: "100%" }}
-                  onPress={() => createAndSavePDF(html)}
-                />
-
                 <Text
                   variant="headerSm"
                   color={message.type === "ERROR" ? "failure" : "success"}
@@ -344,6 +321,16 @@ export default function BeneficiariesModal() {
                 >
                   {message.text}
                 </Text>
+                <Button
+                  label="Save as PDF"
+                  textColor="background"
+                  bgColor="primary"
+                  pv={12}
+                  mt={22}
+                  borderRadius={30}
+                  style={{ width: "100%" }}
+                  onPress={() => createAndSavePDF(html)}
+                />
               </>
             )}
           </Formik>

@@ -86,7 +86,7 @@ export default function PendingModal() {
               id: modalStore.pending.pendingData.id,
               image: "",
               recording: "",
-              age: 0,
+              age: "",
               maritalStatus: "",
               children: [{ name: "", age: "", schooling: "" }],
               jobStatus: "",

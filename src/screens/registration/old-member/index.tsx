@@ -71,7 +71,7 @@ export default function OldMemeberRegistration() {
             address: "",
             sex: "",
             phone: "",
-            age: 0,
+            age: "",
             maritalStatus: "",
             children: [{ name: "", age: "", schooling: "" }],
             jobStatus: "",
