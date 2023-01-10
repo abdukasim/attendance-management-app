@@ -78,7 +78,6 @@ export default class attendance {
   static removeFromOrderList(id: number) {
     try {
       const res = url.delete(`/order-list/${id}`);
-      console.log(res);
       return true;
     } catch (error) {
       console.error(error);

@@ -19,7 +19,6 @@ export default class list {
     url
       .delete(`${listData.endpoint}/${id}`)
       .then((res) => {
-        console.log(res.status);
         this.fetchList(listData.setListData, listData.endpoint);
       })
       .catch((err) => console.error(err));
