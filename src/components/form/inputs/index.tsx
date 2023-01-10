@@ -3,13 +3,13 @@ import React, { useState } from "react";
 //components
 import { FontAwesome } from "@expo/vector-icons";
 import { Text } from "../../text";
-import { StyleProp, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 
 //styles
 import { styles } from "./styles";
 
 //libs
-import { FieldInputProps, FormikErrors, FormikProps } from "formik";
+import { FieldInputProps, FormikProps } from "formik";
 
 interface InputProps extends React.ComponentProps<typeof TextInput> {
   label: string;
