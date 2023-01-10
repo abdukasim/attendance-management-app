@@ -20,7 +20,8 @@ export class auth {
     >,
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
     setSubmitting: (isSubmitting: boolean) => void,
-    setAuthUser: any
+    setAuthUser: any,
+    checked: boolean
   ) {
     try {
       const res = await url.post("/", qs.stringify(credentials));
@@ -28,8 +29,7 @@ export class auth {
         navigation.replace(res.data.type);
       }
       setAuthUser(res.data);
-      console.log("login response", res.data);
-      await storage.storeData("sessionData", res.data);
+      checked && (await storage.storeData("sessionData", res.data));
       setSubmitting(false);
     } catch (error: any) {
       console.error(error.response.data);

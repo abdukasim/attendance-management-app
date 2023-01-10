@@ -37,6 +37,8 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [hidePassword, setHidePassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [checked, setChecked] = useState(false);
+
   const sessionStore = useSessionStore((state) => state);
 
   const initialValues: LoginFormValues = {
@@ -76,7 +78,8 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               navigation,
               setErrorMessage,
               setSubmitting,
-              sessionStore.setAuthUser
+              sessionStore.setAuthUser,
+              checked
             );
           }}
         >
@@ -109,7 +112,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   style={styles.input}
                 />
               </View>
-              <Checkbox />
+              <Checkbox checked={checked} setChecked={setChecked} />
               {!isSubmitting && (
                 <Button
                   borderRadius={30}

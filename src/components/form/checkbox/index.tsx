@@ -2,7 +2,12 @@ import { View, Text } from "react-native";
 import React from "react";
 import ExpoCheckbox from "expo-checkbox";
 
-export default function Checkbox() {
+interface CheckboxProps {
+  checked: boolean;
+  setChecked: any;
+}
+
+export default function Checkbox({ checked, setChecked }: CheckboxProps) {
   return (
     <View
       style={{
@@ -11,7 +16,11 @@ export default function Checkbox() {
         marginTop: 40,
       }}
     >
-      <ExpoCheckbox color="rgb(192, 189, 204)" />
+      <ExpoCheckbox
+        color="rgb(192, 189, 204)"
+        value={checked}
+        onValueChange={setChecked}
+      />
       <Text
         style={{
           marginLeft: 16,
