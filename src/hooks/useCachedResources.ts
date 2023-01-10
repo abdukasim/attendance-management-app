@@ -26,8 +26,8 @@ export default function useCachedResources() {
         const sessionData = await storage.getData("sessionData");
 
         if (sessionData !== null) {
-          const userStatus = await auth.resumeSession(sessionData);
-          userStatus && sessionStore.setAuthUser(sessionData.type);
+          await auth.resumeSession(sessionData);
+          sessionStore.setAuthUser(sessionData);
         }
       } catch (e) {
         // We might want to provide this error information to an error reporting service

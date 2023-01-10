@@ -14,10 +14,7 @@ export default class storage {
 
   static async getData(key: string) {
     try {
-      const jsonValue = await AsyncStorage.getItem("@storage_Key");
-      console.log("====================================");
-      console.log({ jsonValue });
-      console.log("====================================");
+      const jsonValue = await AsyncStorage.getItem(key);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
       // error reading value
