@@ -32,10 +32,10 @@ export class auth {
       checked && (await storage.storeData("sessionData", res.data));
       setSubmitting(false);
     } catch (error: any) {
-      console.error(error.response.data);
+      console.error("error login", error.response.data);
       if (!error.response) {
         setErrorMessage(error.message);
-      } else setErrorMessage(error.response.data.description);
+      } else setErrorMessage(error.response.data.message);
       setSubmitting(false);
     }
   }
