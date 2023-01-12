@@ -2,6 +2,9 @@ import { VisitedUserModel } from "./visited-models";
 
 export interface BeneficiaryModel extends Omit<VisitedUserModel, "recording"> {
   muntahaId: string;
+  beneficiaryStatus?: {
+    status: "present" | "absent" | "permission";
+  };
 }
 
 export interface FetchBeneficiaryListRequest {}
