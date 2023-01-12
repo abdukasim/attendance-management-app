@@ -80,19 +80,19 @@ export default function OldMemeberRegistration() {
             remark: "",
           }}
           validationSchema={OldMemberRegistrationValidationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            const oldRegStatus = registration.old(
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            setSubmitting(true);
+            const oldRegStatus = await registration.old(
               values,
               setSubmitting,
               setMessage
             );
-            oldRegStatus && resetForm();
-            setTimeout(() => {
-              setMessage({
-                text: "",
-                type: "",
-              });
-            }, 2000);
+            if (oldRegStatus) {
+              setMaritalValue(null);
+              setShelterValue(null);
+              setSexValue(null);
+              resetForm();
+            }
           }}
         >
           {({
@@ -129,7 +129,7 @@ export default function OldMemeberRegistration() {
               />
               <DropDownPicker
                 listMode="SCROLLVIEW"
-                zIndex={3000}
+                zIndex={1000}
                 zIndexInverse={1000}
                 placeholder="Sex"
                 open={openSex}
@@ -171,8 +171,8 @@ export default function OldMemeberRegistration() {
               />
               <DropDownPicker
                 listMode="SCROLLVIEW"
-                zIndex={3000}
-                zIndexInverse={1000}
+                zIndex={2000}
+                zIndexInverse={2000}
                 placeholder="Shelter Status"
                 open={openSheter}
                 value={shelterValue}
@@ -210,8 +210,8 @@ export default function OldMemeberRegistration() {
 
               <DropDownPicker
                 listMode="SCROLLVIEW"
-                zIndex={2000}
-                zIndexInverse={2000}
+                zIndex={3000}
+                zIndexInverse={3000}
                 placeholder="Marital Status"
                 open={openMarital}
                 value={maritalValue}
@@ -331,9 +331,9 @@ export default function OldMemeberRegistration() {
                   textColor="background"
                   bgColor="primary"
                   mt={50}
-                  style={{ width: "100%" }}
+                  height={60}
                 >
-                  <ActivityIndicator size="large" color="white" />
+                  <ActivityIndicator size="small" color="white" />
                 </Button>
               )}
               <Text
