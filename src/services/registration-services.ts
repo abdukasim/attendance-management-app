@@ -7,13 +7,13 @@ export class registration {
    * ## New member registration
    * @param values form values
    */
-  static new(
+  static async new(
     values: CreatePendingUserRequest,
     setSubmitting: (isSubmitting: boolean) => void,
     setMessage: any
   ) {
     try {
-      const res = url.post("/pending-list", qs.stringify(values));
+      const res = await url.post("/pending-list", qs.stringify(values));
       setSubmitting(false);
       setMessage({
         text: "Successfully Registered",
@@ -41,7 +41,7 @@ export class registration {
    * ## Old member registration
    * @param values form values
    */
-  static old(
+  static async old(
     values: RegisterBeneficiaryRequest,
     setSubmitting: (isSubmitting: boolean) => void,
     setMessage: any
@@ -59,7 +59,7 @@ export class registration {
       }
     });
     try {
-      const res = url.post("/beneficiary-list", formData, {
+      const res = await url.post("/beneficiary-list", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSubmitting(false);

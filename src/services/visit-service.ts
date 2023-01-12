@@ -1,9 +1,9 @@
 import url from "../helpers/attendanceApi";
 
 export default class visit {
-  static addToAttendance(id: number, setMessage: any) {
+  static async addToAttendance(id: number, setMessage: any) {
     try {
-      const res = url.post(`/visited-list/add-to-beneficiary/${id}`);
+      const res = await url.post(`/visited-list/add-to-beneficiary/${id}`);
       setMessage({
         text: "Successfully added to visited list",
         type: "SUCCESS",
