@@ -317,8 +317,9 @@ export default function OldMemeberRegistration() {
                   label="Register"
                   textColor="background"
                   bgColor="primary"
-                  mt={50}
+                  mt={32}
                   pv={12}
+                  height={60}
                   borderRadius={30}
                   style={{ width: "100%" }}
                   onPress={() => handleSubmit()}
@@ -330,7 +331,7 @@ export default function OldMemeberRegistration() {
                   pv={12}
                   textColor="background"
                   bgColor="primary"
-                  mt={50}
+                  mt={32}
                   height={60}
                 >
                   <ActivityIndicator size="small" color="white" />
