@@ -50,8 +50,8 @@ export default function NewMemberRegistration() {
         <Formik
           initialValues={initialValues}
           validationSchema={NewMemberRegistrationValidationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            const newRegStatus = registration.new(
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            const newRegStatus = await registration.new(
               values,
               setSubmitting,
               setMessage
@@ -123,6 +123,7 @@ export default function NewMemberRegistration() {
                   bgColor="primary"
                   mt={35}
                   pv={12}
+                  height={60}
                   borderRadius={30}
                   style={{ width: "100%" }}
                   onPress={() => handleSubmit()}
@@ -135,9 +136,9 @@ export default function NewMemberRegistration() {
                   textColor="background"
                   bgColor="primary"
                   mt={35}
-                  style={{ width: "100%" }}
+                  height={60}
                 >
-                  <ActivityIndicator size="large" color="white" />
+                  <ActivityIndicator size="small" color="white" />
                 </Button>
               )}
               <Text
