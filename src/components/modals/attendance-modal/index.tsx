@@ -15,11 +15,13 @@ import { useModalStore } from "../../../store/modal-store";
 //services
 import attendance from "../../../services/attendance-services";
 import { useListStore } from "../../../store/list-store";
+import list from "../../../services/list-service";
 
 interface AttendanceModalProps {}
 
 export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
   const modalStore = useModalStore((state) => state);
+  const listStore = useListStore((state) => state.attendance);
 
   const [message, setMessage] = useState({
     text: "",
@@ -54,6 +56,10 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           textColor="foreground"
           label="Present"
           mb={12}
+          disabled={
+            modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
+            "absent"
+          }
           onPress={() => {
             const attendanceStatus = attendance.markPresent(
               modalStore.attendance.attendeeData.id,
@@ -67,6 +73,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
                 });
                 modalStore.attendance.hide();
               }, 2000);
+            list.fetchList(listStore.setListData, listStore.endpoint);
           }}
         />
         <Button
@@ -75,6 +82,10 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           bgColor="background"
           textColor="foreground"
           label="Permission"
+          disabled={
+            modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
+            "absent"
+          }
           onPress={() => {
             const permissionStatus = attendance.givePermisssion(
               modalStore.attendance.attendeeData.id,
@@ -88,12 +99,13 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
                 });
                 modalStore.attendance.hide();
               }, 2000);
+            list.fetchList(listStore.setListData, listStore.endpoint);
           }}
         />
         {message && (
           <Text
             variant="headerSm"
-            color={message.type === "ERROR" ? "failure" : "success"}
+            color={message.type === "ERROR" ? "failure" : "background"}
             style={{
               textAlign: "center",
             }}
