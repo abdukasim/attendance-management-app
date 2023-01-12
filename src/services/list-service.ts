@@ -9,9 +9,12 @@ export default class list {
   static async fetchList(setList: (data: []) => void, endpoint: string) {
     try {
       const res = await url.get(endpoint);
-      setList(res.data.list);
+      if (endpoint === "/order-list") {
+        let orderList = res.data.list.filter((item: any) => item.active);
+        setList(orderList);
+      } else setList(res.data.list);
     } catch (error) {
-      console.error(error);
+      console.error("fetching list error", error);
     }
   }
 
