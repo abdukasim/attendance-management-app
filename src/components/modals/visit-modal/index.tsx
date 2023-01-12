@@ -234,8 +234,8 @@ export default function VisitedModal() {
               mt={50}
               borderRadius={30}
               width={145}
-              onPress={() => {
-                const visitedStatus = visit.addToAttendance(
+              onPress={async () => {
+                const visitedStatus = await visit.addToAttendance(
                   modalStore.visited.visitedData.id,
                   setMessage
                 );
