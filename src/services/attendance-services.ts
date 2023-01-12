@@ -7,7 +7,7 @@ export default class attendance {
     try {
       const res = url.put(`/present/${id}`);
       setMessage({
-        text: "Status Changed to Present Successfully!",
+        text: "Status Changed to Present!",
         type: "SUCCESS",
       });
       return true;
@@ -25,7 +25,7 @@ export default class attendance {
     try {
       const res = url.put(`/permission/${id}`);
       setMessage({
-        text: "Status Changed to permission Successfully!",
+        text: "Status Changed to Permission!",
         type: "SUCCESS",
       });
       return true;
