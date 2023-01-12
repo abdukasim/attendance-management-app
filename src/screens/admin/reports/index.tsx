@@ -186,7 +186,7 @@ export function ReportScreen() {
         </View>
       </View>
 
-      <Text variant="headerSm">Weekly</Text>
+      <Text variant="headerSm">Daily</Text>
       <Text variant="headerXl" color="primary" mb={28}>
         {startDate.date} - {endDate.date}
       </Text>
