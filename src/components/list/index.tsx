@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 //icons
 import { AntDesign } from "@expo/vector-icons";
@@ -43,6 +43,10 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
     setRefreshing(false);
   }, []);
 
+  useEffect(() => {
+    modalStore[parent].isShow === false && setSelectedID("");
+  }, [modalStore[parent].isShow]);
+
   const ListItem = ({ item }: any) => (
     <Pressable
       onPress={() => {
@@ -56,7 +60,19 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
         px={20}
         mb={10}
         borderRadius={13}
-        bgColor={selectedID === item.id ? "secondary" : "background"}
+        bgColor={(() => {
+          if (parent === "attendance") {
+            if (item.beneficiaryStatus?.status === "present") {
+              return "success";
+            } else if (item.beneficiaryStatus?.status === "permission") {
+              return "secondary";
+            } else {
+              return "background";
+            }
+          } else {
+            return "background";
+          }
+        })()}
         style={styles.cardFlexStyles}
       >
         <View>
