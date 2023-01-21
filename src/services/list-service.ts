@@ -13,8 +13,9 @@ export default class list {
         let orderList = res.data.list.filter((item: any) => item.active);
         setList(orderList);
       } else setList(res.data.list);
-    } catch (error) {
-      console.error("fetching list error", error);
+    } catch (error: any) {
+      console.error("fetching list error", error.message);
+      return error;
     }
   }
 
