@@ -57,7 +57,7 @@ export const useListStore = create<ListStore>((set) => ({
         })
       );
     },
-    endpoint: ORDER_LIST_ENDPOINT,
+    endpoint: "/order-list",
   },
   pending: {
     listData: [],

@@ -30,12 +30,12 @@ export default function OrderScreen() {
   );
 
   useEffect(() => {
-    list.fetchList(listStore.setListData, listStore.endpoint);
+    list.fetchList(listStore.setListData, "/order-list");
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      list.fetchList(listStore.setListData, listStore.endpoint);
+      list.fetchList(listStore.setListData, "/order-list");
     }, [])
   );
   return (
