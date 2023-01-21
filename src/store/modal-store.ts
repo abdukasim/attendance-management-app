@@ -1,5 +1,5 @@
 import produce from "immer";
-import create from "zustand";
+import { create } from "zustand";
 import { BeneficiaryModel } from "../models/beneficiary-models";
 import { PendingUserModel } from "../models/pending-models";
 import { VisitedUserModel } from "../models/visited-models";
