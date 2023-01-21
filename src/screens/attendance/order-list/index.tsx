@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 //components
 import { SafeAreaView } from "react-native";
+import { SearchBar } from "../../../components/searchBar";
 import { List } from "../../../components/list";
 import { OrderModal } from "../../../components/modals/order-modal";
 
 //hooks
+import useSearch from "../../../hooks/useSearch";
 import { useModalStore } from "../../../store/modal-store";
 import { useFocusEffect } from "@react-navigation/native";
 import { useListStore } from "../../../store/list-store";
@@ -15,10 +17,17 @@ import { styles } from "./styles";
 
 //services
 import list from "../../../services/list-service";
+import { Text } from "../../../components/text";
 
 export default function OrderScreen() {
-  const modalStore = useModalStore((state) => state.order);
+  const [clicked, setClicked] = useState(false);
+
+  const modalStore = useModalStore((state) => state);
   const listStore = useListStore((state) => state.order);
+
+  const [search, filteredDataSource, searchFilterFunction] = useSearch(
+    listStore.listData
+  );
 
   useEffect(() => {
     list.fetchList(listStore.setListData, listStore.endpoint);
@@ -31,8 +40,16 @@ export default function OrderScreen() {
   );
   return (
     <SafeAreaView style={styles.container}>
-      <List data={listStore.listData} parent="order" />
-      {modalStore.isShow && <OrderModal />}
+      <Text>{listStore.endpoint}</Text>
+      <Text>sth</Text>
+      <SearchBar
+        clicked={clicked}
+        setClicked={setClicked}
+        searchPhrase={search}
+        setSearchPhrase={searchFilterFunction}
+      />
+      <List data={filteredDataSource} parent="order" />
+      {modalStore.order.isShow && <OrderModal />}
     </SafeAreaView>
   );
 }
