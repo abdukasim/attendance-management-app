@@ -1,4 +1,10 @@
-import { View, SafeAreaView, TextInput, Pressable } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  TextInput,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
 import { Text } from "../../../components/text";
@@ -256,7 +262,7 @@ export function ReportScreen() {
         Absent Beneficiaries
       </Text>
 
-      <View>
+      <ScrollView>
         <View style={styles.tableHeader}>
           <Text style={{ flex: 1 }}>No.</Text>
           <Text style={{ flex: 3 }}>Name</Text>
@@ -264,6 +270,7 @@ export function ReportScreen() {
         </View>
 
         <View style={styles.tableSeparator}></View>
+
         {absentReport.map((item: AbsentReportListModel, index) => (
           <View style={styles.tableBody} key={item.muntahaId}>
             <Text style={{ flex: 1 }}>{index + 1}</Text>
@@ -271,7 +278,7 @@ export function ReportScreen() {
             <Text style={{ flex: 2 }}>{item.phone}</Text>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
