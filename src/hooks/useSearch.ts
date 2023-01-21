@@ -19,9 +19,9 @@ export default function useSearch(data: any) {
       setSearch(text);
       const newData = masterDataSource.filter(function (item: any) {
         let itemData;
-        if (item.muntahaID) {
-          itemData = item.muntahaID
-            ? item.muntahaID.toUpperCase()
+        if (item.muntahaId) {
+          itemData = item.muntahaId
+            ? item.muntahaId.toUpperCase()
             : "".toUpperCase();
         } else {
           itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
