@@ -26,16 +26,6 @@ export default function Stats() {
   const socket = io(SOCKET_API_URL);
 
   useEffect(() => {
-    socket.emit("getPresentCount");
-    socket.emit("getMealServed");
-    socket.emit("getBeneficiaryCount");
-
-    return () => {
-      socket && socket.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
     socket.on("presentCount", (count: any) => {
       setPresentAttendees(count);
     });
