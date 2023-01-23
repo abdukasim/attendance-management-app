@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useSearch(data: any) {
   const [search, setSearch] = useState("");
@@ -18,16 +18,14 @@ export default function useSearch(data: any) {
       // Update FilteredDataSource
       setSearch(text);
       const newData = masterDataSource.filter(function (item: any) {
-        let itemData;
-        if (item.muntahaId) {
-          itemData = item.muntahaId
-            ? item.muntahaId.toUpperCase()
-            : "".toUpperCase();
-        } else {
-          itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
-        }
+        let itemData1 = item.muntahaId
+          ? item.muntahaId.toUpperCase()
+          : "".toUpperCase();
+        let itemData2 = item.name ? item.name.toUpperCase() : "".toUpperCase();
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
+        return (
+          itemData1.indexOf(textData) > -1 || itemData2.indexOf(textData) > -1
+        );
       });
       setFilteredDataSource(newData);
     } else {
