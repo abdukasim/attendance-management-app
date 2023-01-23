@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 //components
-import { TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Button } from "../../button";
 import { Card } from "../../card";
 import { Text } from "../../text";
@@ -23,6 +23,8 @@ export const OrderModal: React.FC<OrderModalProps> = () => {
   const modalStore = useModalStore((state) => state.order);
   const listStore = useListStore((state) => state.order);
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -43,22 +45,38 @@ export const OrderModal: React.FC<OrderModalProps> = () => {
         <Text color="background" variant="headerSm" mb={28}>
           {modalStore.orderData.muntahaId}
         </Text>
-        <Button
-          borderRadius={30}
-          pv={12}
-          bgColor="secondary"
-          textColor="foreground"
-          label="Remove"
-          mb={12}
-          onPress={() => {
-            const orderStatus = attendance.removeFromOrderList(
-              modalStore.orderData.id
-            );
-            orderStatus && modalStore.hide();
-            list.fetchList(listStore.setListData, listStore.endpoint);
-          }}
-        />
-        {/* TODO order modal services */}
+        {!loading && (
+          <Button
+            borderRadius={30}
+            pv={12}
+            bgColor="secondary"
+            textColor="foreground"
+            label="Remove"
+            mb={12}
+            onPress={async () => {
+              setLoading(true);
+              const orderStatus = await attendance.removeFromOrderList(
+                modalStore.orderData.id
+              );
+              setLoading(false);
+              if (orderStatus) {
+                modalStore.hide();
+                list.fetchList(listStore.setListData, listStore.endpoint);
+              }
+            }}
+          />
+        )}
+        {loading && (
+          <Button
+            borderRadius={30}
+            pv={15}
+            mb={12}
+            textColor="background"
+            bgColor="secondary"
+          >
+            <ActivityIndicator size="small" color="black" />
+          </Button>
+        )}
       </Card>
     </View>
   );

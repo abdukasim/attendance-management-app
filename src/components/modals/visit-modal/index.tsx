@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //components
-import { ScrollView, TextInput, View } from "react-native";
+import { ActivityIndicator, ScrollView, TextInput, View } from "react-native";
 import Modal from "react-native-modal";
 import { Button } from "../../button";
 import { Card } from "../../card";
@@ -38,6 +38,7 @@ export default function VisitedModal() {
   });
   const [audio, setAudio] = useState<Audio.Sound>();
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function playSound() {
     try {
@@ -226,30 +227,47 @@ export default function VisitedModal() {
               justifyContent: "space-between",
             }}
           >
-            <Button
-              label="Accept"
-              textColor="background"
-              bgColor="primary"
-              pv={12}
-              mt={50}
-              borderRadius={30}
-              width={145}
-              onPress={async () => {
-                const visitedStatus = await visit.addToAttendance(
-                  modalStore.visited.visitedData.id,
-                  setMessage
-                );
-                visitedStatus &&
-                  setTimeout(() => {
-                    setMessage({
-                      text: "",
-                      type: "",
-                    });
-                    modalStore.visited.hide();
-                  }, 2000);
-                list.fetchList(listStore.setListData, listStore.endpoint);
-              }}
-            />
+            {!loading && (
+              <Button
+                label="Accept"
+                textColor="background"
+                bgColor="primary"
+                pv={12}
+                mt={50}
+                borderRadius={30}
+                width={145}
+                onPress={async () => {
+                  setLoading(true);
+                  const visitedStatus = await visit.addToAttendance(
+                    modalStore.visited.visitedData.id,
+                    setMessage
+                  );
+                  if (visitedStatus) {
+                    setTimeout(() => {
+                      setMessage({
+                        text: "",
+                        type: "",
+                      });
+                      modalStore.visited.hide();
+                    }, 2000);
+                    list.fetchList(listStore.setListData, listStore.endpoint);
+                  }
+                  setLoading(false);
+                }}
+              />
+            )}
+            {loading && (
+              <Button
+                borderRadius={30}
+                pv={12}
+                textColor="background"
+                bgColor="primary"
+                mt={50}
+                width={145}
+              >
+                <ActivityIndicator size="small" color="white" />
+              </Button>
+            )}
             <Button
               label="Delete"
               textColor="background"

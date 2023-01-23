@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //components
-import { TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Button } from "../../button";
 import { Card } from "../../card";
 import { Text } from "../../text";
@@ -23,10 +23,7 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
   const modalStore = useModalStore((state) => state);
   const listStore = useListStore((state) => state.attendance);
 
-  const [message, setMessage] = useState({
-    text: "",
-    type: "",
-  });
+  const [loading, setLoading] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -49,69 +46,79 @@ export const AttendanceModal: React.FC<AttendanceModalProps> = () => {
           {modalStore.attendance.attendeeData.muntahaId}
         </Text>
 
-        <Button
-          borderRadius={30}
-          pv={12}
-          bgColor="secondary"
-          textColor="foreground"
-          label="Present"
-          mb={12}
-          disabled={
-            modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
-            "absent"
-          }
-          onPress={() => {
-            const attendanceStatus = attendance.markPresent(
-              modalStore.attendance.attendeeData.id,
-              setMessage
-            );
-            attendanceStatus &&
-              setTimeout(() => {
-                setMessage({
-                  text: "",
-                  type: "",
-                });
-                modalStore.attendance.hide();
-              }, 2000);
-            list.fetchList(listStore.setListData, listStore.endpoint);
-          }}
-        />
-        <Button
-          borderRadius={30}
-          pv={12}
-          bgColor="background"
-          textColor="foreground"
-          label="Permission"
-          disabled={
-            modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
-            "absent"
-          }
-          onPress={() => {
-            const permissionStatus = attendance.givePermisssion(
-              modalStore.attendance.attendeeData.id,
-              setMessage
-            );
-            permissionStatus &&
-              setTimeout(() => {
-                setMessage({
-                  text: "",
-                  type: "",
-                });
-                modalStore.attendance.hide();
-              }, 2000);
-            list.fetchList(listStore.setListData, listStore.endpoint);
-          }}
-        />
-        {message && (
-          <Text
-            variant="headerSm"
-            color={message.type === "ERROR" ? "failure" : "background"}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            {message.text}
-          </Text>
+        {!loading && (
+          <>
+            <Button
+              borderRadius={30}
+              pv={12}
+              bgColor="secondary"
+              textColor="foreground"
+              label="Present"
+              mb={12}
+              disabled={
+                modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
+                "absent"
+              }
+              onPress={async () => {
+                setLoading(true);
+                const attendanceStatus = await attendance.markPresent(
+                  modalStore.attendance.attendeeData.id
+                );
+                if (attendanceStatus) {
+                  setTimeout(() => {
+                    modalStore.attendance.hide();
+                  }, 2000);
+                  list.fetchList(listStore.setListData, listStore.endpoint);
+                }
+                setLoading(false);
+              }}
+            />
+            <Button
+              borderRadius={30}
+              pv={12}
+              bgColor="background"
+              textColor="foreground"
+              label="Permission"
+              disabled={
+                modalStore.attendance.attendeeData.beneficiaryStatus?.status !==
+                "absent"
+              }
+              onPress={async () => {
+                setLoading(true);
+                const permissionStatus = await attendance.givePermisssion(
+                  modalStore.attendance.attendeeData.id
+                );
+                if (permissionStatus) {
+                  setTimeout(() => {
+                    modalStore.attendance.hide();
+                  }, 2000);
+                  list.fetchList(listStore.setListData, listStore.endpoint);
+                }
+                setLoading(false);
+              }}
+            />
+          </>
+        )}
+        {loading && (
+          <>
+            <Button
+              borderRadius={30}
+              pv={15}
+              mb={12}
+              textColor="background"
+              bgColor="secondary"
+            >
+              <ActivityIndicator size="small" color="black" />
+            </Button>
+            <Button
+              borderRadius={30}
+              pv={15}
+              textColor="background"
+              bgColor="background"
+            >
+              <ActivityIndicator size="small" color="black" />
+            </Button>
+          </>
         )}
       </Card>
     </View>
