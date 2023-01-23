@@ -1,13 +1,6 @@
 import produce from "immer";
 import { create } from "zustand";
 
-import {
-  ATTENDANCE_LIST_ENDPOINT,
-  ORDER_LIST_ENDPOINT,
-  PENDING_LIST_ENDPOINT,
-  VISITED_LIST_ENDPOINT,
-} from "@env";
-
 export interface ListStore {
   attendance: {
     listData: [];
@@ -46,7 +39,7 @@ export const useListStore = create<ListStore>((set) => ({
         })
       );
     },
-    endpoint: ATTENDANCE_LIST_ENDPOINT,
+    endpoint: "/beneficiary-list",
   },
   order: {
     listData: [],
@@ -68,7 +61,7 @@ export const useListStore = create<ListStore>((set) => ({
         })
       );
     },
-    endpoint: PENDING_LIST_ENDPOINT,
+    endpoint: "/pending-list",
   },
   visited: {
     listData: [],
@@ -79,7 +72,7 @@ export const useListStore = create<ListStore>((set) => ({
         })
       );
     },
-    endpoint: VISITED_LIST_ENDPOINT,
+    endpoint: "/visited-list",
   },
   beneficiaries: {
     listData: [],
@@ -90,6 +83,6 @@ export const useListStore = create<ListStore>((set) => ({
         })
       );
     },
-    endpoint: ATTENDANCE_LIST_ENDPOINT,
+    endpoint: "/beneficiary-list",
   },
 }));
