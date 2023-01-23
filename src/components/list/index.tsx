@@ -47,6 +47,20 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
     modalStore[parent].isShow === false && setSelectedID("");
   }, [modalStore[parent].isShow]);
 
+  const EmptyListMessage = () => (
+    <Card
+      width={368}
+      height={75}
+      px={20}
+      mb={10}
+      borderRadius={13}
+      bgColor="secondary"
+      style={styles.cardFlexStyles}
+    >
+      <Text>List is empty</Text>
+    </Card>
+  );
+
   const ListItem = ({ item }: any) => (
     <Pressable
       onPress={() => {
@@ -105,6 +119,7 @@ export const List: React.FC<ListProps> = ({ data, parent }) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        ListEmptyComponent={EmptyListMessage}
       />
     </SafeAreaView>
   );
