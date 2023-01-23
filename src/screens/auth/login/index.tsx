@@ -35,7 +35,6 @@ interface LoginFormValues {
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [hidePassword, setHidePassword] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [checked, setChecked] = useState(false);
 
@@ -72,11 +71,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         <Formik
           initialValues={initialValues}
           validationSchema={LoginValidationSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            auth.login(
+          onSubmit={async (values, { setSubmitting }) => {
+            await auth.login(
               values,
               navigation,
-              setErrorMessage,
               setSubmitting,
               sessionStore.setAuthUser,
               checked
@@ -137,16 +135,6 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   <ActivityIndicator size="small" color="white" />
                 </Button>
               )}
-              <Text
-                variant="headerSm"
-                color="failure"
-                style={{
-                  textAlign: "center",
-                }}
-                mt={10}
-              >
-                {errorMessage}
-              </Text>
             </>
           )}
         </Formik>

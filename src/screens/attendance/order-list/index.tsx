@@ -17,7 +17,6 @@ import { styles } from "./styles";
 
 //services
 import list from "../../../services/list-service";
-import { Text } from "../../../components/text";
 
 export default function OrderScreen() {
   const [clicked, setClicked] = useState(false);
@@ -30,18 +29,16 @@ export default function OrderScreen() {
   );
 
   useEffect(() => {
-    list.fetchList(listStore.setListData, "/order-list");
+    list.fetchList(listStore.setListData, listStore.endpoint);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      list.fetchList(listStore.setListData, "/order-list");
+      list.fetchList(listStore.setListData, listStore.endpoint);
     }, [])
   );
   return (
     <SafeAreaView style={styles.container}>
-      <Text>{listStore.endpoint}</Text>
-      <Text>sth</Text>
       <SearchBar
         clicked={clicked}
         setClicked={setClicked}

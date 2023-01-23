@@ -1,5 +1,7 @@
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import Toast from "react-native-root-toast";
 import url from "../helpers/attendanceApi";
+import { theme } from "../styles/theme";
 
 export class reports {
   static onDateChange(
@@ -61,8 +63,28 @@ export class reports {
         permission: res.data.report.total.permission,
       });
       setAttendanceReport(res.data.report.list);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if (error.code === "ECONNABORTED") {
+        Toast.show(
+          "Request timed out. Please check your internet connection and reload screen.",
+          {
+            duration: Toast.durations.LONG,
+            position: 50,
+            backgroundColor: theme.colors.secondary,
+            textColor: theme.colors.failure,
+            opacity: 1,
+          }
+        );
+      } else {
+        Toast.show(`${error.message}`, {
+          duration: Toast.durations.LONG,
+          position: 50,
+          backgroundColor: theme.colors.secondary,
+          textColor: theme.colors.failure,
+          opacity: 1,
+        });
+      }
     }
   }
 

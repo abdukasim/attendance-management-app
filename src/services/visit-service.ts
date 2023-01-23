@@ -10,7 +10,7 @@ export default class visit {
       });
       return true;
     } catch (error: any) {
-      console.error(error);
+      console.error(error.message);
       setMessage({
         text: error.message,
         type: "ERROR",

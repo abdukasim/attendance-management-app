@@ -1,39 +1,50 @@
+import Toast from "react-native-root-toast";
 import url from "../helpers/attendanceApi";
 import { UpdateBeneficiaryRequest } from "../models/beneficiary-models";
-import { ErrorResponse } from "../models/error-models";
+import { theme } from "../styles/theme";
 
 export default class attendance {
-  static markPresent(id: number, setMessage: any) {
+  static async markPresent(id: number) {
     try {
-      const res = url.put(`/present/${id}`);
-      setMessage({
-        text: "Status Changed to Present!",
-        type: "SUCCESS",
-      });
+      const res = await url.put(`/present/${id}`);
+      res.status === 200 &&
+        Toast.show("Status Changed to Present!", {
+          duration: Toast.durations.LONG,
+          position: 50,
+          backgroundColor: theme.colors.primary,
+          textColor: theme.colors.background,
+        });
       return true;
     } catch (error) {
       console.error(error);
-      setMessage({
-        text: "Status Change Failed!",
-        type: "FAILURE",
+      Toast.show("Status Change Failed!", {
+        duration: Toast.durations.LONG,
+        position: 50,
+        backgroundColor: theme.colors.secondary,
+        textColor: theme.colors.failure,
       });
       return false;
     }
   }
 
-  static givePermisssion(id: number, setMessage: any) {
+  static async givePermisssion(id: number) {
     try {
-      const res = url.put(`/permission/${id}`);
-      setMessage({
-        text: "Status Changed to Permission!",
-        type: "SUCCESS",
-      });
+      const res = await url.put(`/permission/${id}`);
+      res.status === 200 &&
+        Toast.show("Status Changed to Permession!", {
+          duration: Toast.durations.LONG,
+          position: 50,
+          backgroundColor: theme.colors.primary,
+          textColor: theme.colors.background,
+        });
       return true;
     } catch (error) {
       console.error(error);
-      setMessage({
-        text: "Status Change Failed!",
-        type: "FAILURE",
+      Toast.show("Status Change Failed!", {
+        duration: Toast.durations.LONG,
+        position: 50,
+        backgroundColor: theme.colors.secondary,
+        textColor: theme.colors.failure,
       });
       return false;
     }
@@ -75,12 +86,27 @@ export default class attendance {
     }
   }
 
-  static removeFromOrderList(id: number) {
+  static async removeFromOrderList(id: number) {
     try {
-      const res = url.delete(`/order-list/${id}`);
+      const res = await url.delete(`/order-list/${id}`);
+      Toast.show("Removed from Order List!", {
+        duration: Toast.durations.LONG,
+        position: 50,
+        backgroundColor: theme.colors.primary,
+        textColor: theme.colors.background,
+      });
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if (error.code === "ERR_NETWORK" || error.code === "ECONNABORTED") {
+        Toast.show("Please check your internet connection and try again.", {
+          duration: Toast.durations.LONG,
+          position: 50,
+          backgroundColor: theme.colors.secondary,
+          textColor: theme.colors.failure,
+          opacity: 1,
+        });
+      }
       return false;
     }
   }

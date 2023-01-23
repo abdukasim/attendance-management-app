@@ -101,7 +101,7 @@ export default function PendingModal() {
                 setSubmitting,
                 setMessage
               );
-              pendingStatus &&
+              if (pendingStatus) {
                 setTimeout(() => {
                   modalStore.pending.hide();
                   setMessage({
@@ -109,7 +109,8 @@ export default function PendingModal() {
                     type: "",
                   });
                 }, 2000);
-              list.fetchList(listStore.setListData, listStore.endpoint);
+                list.fetchList(listStore.setListData, listStore.endpoint);
+              }
             }}
           >
             {({
