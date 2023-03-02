@@ -6,15 +6,15 @@ export const OldMemberRegistrationValidationSchema = yup.object().shape({
     .matches(/(\w.+\s).+/, "Enter at least 2 names")
     .required("Full name is required"),
   age: yup.number().required("Age is required"),
-  sex: yup.string().required("Sex is required").nullable(),
+  sex: yup.string().nullable().required("Sex is required"),
   address: yup.string().required("Address is required"),
   phone: yup
     .string()
-    .matches(/(09)(\d){8}\b/, "Enter a valid phone number")
+    .matches(/(0[79])(\d){8}\b/, "Enter a valid phone number")
     .required("Phone number is required"),
-  shelterStatus: yup.string().required("Shelter Status is required").nullable(),
+  shelterStatus: yup.string().nullable().required("Shelter Status is required"),
   jobStatus: yup.string().required("Job Status is required"),
-  maritalStatus: yup.string().required("Marital Status is required").nullable(),
+  maritalStatus: yup.string().nullable().required("Marital Status is required"),
 });
 
 export const PendingListValidationSchema = yup.object().shape({
@@ -39,7 +39,7 @@ export const NewMemberRegistrationValidationSchema = yup.object().shape({
     .required("Full name is required"),
   phone: yup
     .string()
-    .matches(/(09)(\d){8}\b/, "Enter a valid phone number")
+    .matches(/(0[79])(\d){8}\b/, "Enter a valid phone number")
     .required("Phone number is required"),
   address: yup.string().required("Address is required"),
   sex: yup.string().matches(/Male/i).required("Sex is required"),
