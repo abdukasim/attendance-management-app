@@ -27,6 +27,7 @@ import { API_URL } from "@env";
 import attendance from "../../../services/attendance-services";
 import list from "../../../services/list-service";
 import { createAndSavePDF } from "../../../services/pdf-services";
+import { ImageUploader } from "../../imageUploader";
 
 export default function BeneficiariesModal() {
   const modalStore = useModalStore((state) => state);
@@ -43,91 +44,107 @@ export default function BeneficiariesModal() {
       ? ""
       : JSON.parse(modalStore.beneficiaries.beneficiariesData.children);
   const html = `
-    <html>
-      <head>
-        <style>
-          html, body {
-            margin: 0;
-            padding: 0;
-          }
-          h4 {
-            margin: 0;
-            padding: 0;
-          }
-          .content-text {
-            font-size: 12px;
-            font-family: sans-serif;
-            margin: 0;
-            padding: 2px 5px 0px 0;
-            background-color: red;
-          }
-          .child-list {
-            width: 100%
-            display: flex;
-            flex-direction: column;
-          }
-        </style>
-      </head>
-      <body>
-          <div>
-            <img src="${API_URL}/assets/imgs/logo.png" alt="Muntaha Foundation" width="250" height="auto" />
-            <hr />
-            <div className="content-wrapper">
-              <h4>Image</h4>
-            <img src="${API_URL}/assets/${
+  <html>
+  <head>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+        color: #0b77c2;
+      }
+      h4 {
+        margin: 0;
+        padding: 0;
+      }
+      .content-text {
+        font-size: 12px;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 2px 5px 0px 0;
+      }
+      .child-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .content-wrapper {
+        display: flex;
+        align-items: center;
+        background-color: #eee;
+        box-shadow: 7px 7px 5px rgba(0, 0, 0, 0.102);
+        width: 500px;
+        height: 50px;
+        margin-bottom: 18px;
+        padding: 0 12px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <!-- logo -->
+      <img
+        src="${API_URL}/assets/imgs/logo.png"
+        alt="Muntaha Foundation"
+        width="130"
+        height="auto"
+      />
+
+      <h1>Beneficiary Profile</h1>
+      <div class="container">
+        <div class="">
+          <img
+            src="${API_URL}/assets/${
     modalStore.beneficiaries.beneficiariesData.image
-  }" alt=${
-    modalStore.beneficiaries.beneficiariesData.name
-  } width="100" height="100" style={border-radius: 999} />
-            </div>
-            <div className="content-wrapper">
-            <h4>Name</h4>
-            <p className="content-text">${
-              modalStore.beneficiaries.beneficiariesData.name
-            }</p>
-          </div>
-            <div className="content-wrapper">
-              <h4>Phone</h4>
-              <p className="content-text">${
-                modalStore.beneficiaries.beneficiariesData.phone
-              }</p>
-            </div>
-            <div className="content-wrapper">
-              <h4>age</h4>
-              <p className="content-text">${
-                modalStore.beneficiaries.beneficiariesData.age
-              }</p>
-            </div>
-            <div className="content-wrapper">
-            <h4>Address</h4>
-            <p className="content-text">${
-              modalStore.beneficiaries.beneficiariesData.address
-            }</p>
-          </div>
-          <div className="content-wrapper">
-          ${
-            children === "" || children[0].name === ""
-              ? `
-              <div>
-                <h4>Children</h4>
-                <p className="content-text">0</p>
-              </div>`
-              : children.map(
-                  (child: any) =>
-                    `<div key={index} className="child-list">
-                    <h4>Child Name</h4>
-                  <p className="content-text">${child.name}</p>
-                  <h4>Child Age</h4>
-                  <p className="content-text">${child.age}</p>
-                  <h4>Child Schooling</h4>
-                  <p className="content-text">${child.schooling}</p>
-                </div>`
-                )
-          } 
+  }"
+            alt="${modalStore.beneficiaries.beneficiariesData.name}"
+            width="150"
+            height="150"
+          />
         </div>
+        <div class="inner-container">
+          <div class="content-wrapper">
+            <p class="content-text">
+              ID: ${modalStore.beneficiaries.beneficiariesData.muntahaId}
+            </p>
           </div>
-      </body>
-    </html>
+          <div class="content-wrapper">
+            <p class="content-text">
+              Name: ${modalStore.beneficiaries.beneficiariesData.name}
+            </p>
+          </div>
+          <div class="content-wrapper">
+            <p class="content-text">
+              Phone: ${modalStore.beneficiaries.beneficiariesData.phone}
+            </p>
+          </div>
+          <div class="content-wrapper">
+            <p class="content-text">
+              age: ${modalStore.beneficiaries.beneficiariesData.age}
+            </p>
+          </div>
+          <div class="content-wrapper">
+            <p class="content-text">
+              Address: ${modalStore.beneficiaries.beneficiariesData.address}
+            </p>
+          </div>
+          <div class="content-wrapper">
+              <p class="content-text">Children: ${children.length - 1}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
   `;
 
   return (
@@ -151,7 +168,7 @@ export default function BeneficiariesModal() {
           <Formik
             initialValues={{
               id: modalStore.beneficiaries.beneficiariesData.id,
-              // image: "",
+              image: "",
               name: modalStore.beneficiaries.beneficiariesData.name,
               sex: modalStore.beneficiaries.beneficiariesData.sex,
               age: modalStore.beneficiaries.beneficiariesData.age.toString(),
@@ -179,19 +196,23 @@ export default function BeneficiariesModal() {
               list.fetchList(listStore.setListData, listStore.endpoint);
             }}
           >
-            {({ handleSubmit, isSubmitting }) => (
+            {({
+              handleSubmit,
+              isSubmitting,
+              setFieldTouched,
+              setFieldValue,
+              setFieldError,
+              errors,
+            }) => (
               <>
-                <View style={imgStyles.imageContainer}>
-                  {modalStore.beneficiaries.beneficiariesData.image && (
-                    <Img
-                      source={{
-                        uri: `${API_URL}/assets/${modalStore.beneficiaries.beneficiariesData.image}`,
-                      }}
-                      width="100%"
-                      height="100%"
-                    />
-                  )}
-                </View>
+                <ImageUploader
+                  setFieldTouched={setFieldTouched}
+                  setFieldValue={setFieldValue}
+                  setFieldError={setFieldError}
+                  imageUri={`${API_URL}/assets/${modalStore.beneficiaries.beneficiariesData.image}`}
+                  editable={edit}
+                  error={errors.image}
+                />
                 <Switch
                   trackColor={{
                     false: theme.colors.tertiary,
