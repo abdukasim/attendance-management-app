@@ -7,6 +7,7 @@ export const OldMemberRegistrationValidationSchema = yup.object().shape({
     .required("Full name is required"),
   age: yup.number().required("Age is required"),
   sex: yup.string().nullable().required("Sex is required"),
+  image: yup.string().required("Image is required"),
   address: yup.string().required("Address is required"),
   phone: yup
     .string()
@@ -22,6 +23,7 @@ export const PendingListValidationSchema = yup.object().shape({
     .number()
     .required("Age is required")
     .typeError("Please enter a number"),
+  image: yup.string().required("Image is required"),
   shelterStatus: yup.string().required("Shelter Status is required"),
   jobStatus: yup.string().required("Job Status is required"),
   maritalStatus: yup.string().required("Marital Status is required"),
