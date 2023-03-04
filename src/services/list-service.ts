@@ -39,7 +39,6 @@ export default class list {
   }
 
   static deleteFromList(listData: any, id: number) {
-    console.log(id, listData.endpoint);
     url
       .delete(`${listData.endpoint}/${id}`)
       .then((res) => {

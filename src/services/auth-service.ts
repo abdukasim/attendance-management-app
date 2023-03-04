@@ -21,7 +21,6 @@ export class auth {
   ) {
     try {
       const res = await url.post("/", qs.stringify(credentials));
-      console.log(res);
       if (res.status == 200) {
         Toast.show("Welcome Back", {
           position: 50,
