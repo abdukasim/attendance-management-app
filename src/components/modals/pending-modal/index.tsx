@@ -122,12 +122,21 @@ export default function PendingModal() {
               touched,
               setFieldValue,
               setFieldTouched,
+              setFieldError,
             }) => (
               <>
                 <ImageUploader
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
+                  setFieldError={setFieldError}
+                  error={errors.image}
+                  editable={true}
                 />
+                {errors.image && touched.image && (
+                  <Text color="failure" variant="body" ml={10} mb={16}>
+                    {errors.image as string}
+                  </Text>
+                )}
                 <AudioRecorder
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
