@@ -104,12 +104,21 @@ export default function OldMemeberRegistration() {
             touched,
             setFieldValue,
             setFieldTouched,
+            setFieldError,
           }) => (
             <>
               <ImageUploader
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
+                setFieldError={setFieldError}
+                error={errors.image}
+                editable={true}
               />
+              {errors.image && touched.image && (
+                <Text color="failure" variant="body" ml={10} mb={16}>
+                  {errors.image as string}
+                </Text>
+              )}
               <Field
                 component={Input}
                 name="name"
@@ -138,8 +147,8 @@ export default function OldMemeberRegistration() {
                 setOpen={setOpenSex}
                 setValue={setSexValue}
                 setItems={setSexOptions}
+                onOpen={() => setFieldTouched("sex", true)}
                 onChangeValue={(value) => {
-                  setFieldTouched("sex", true);
                   setFieldValue("sex", value);
                 }}
                 style={[
@@ -171,8 +180,8 @@ export default function OldMemeberRegistration() {
               />
               <DropDownPicker
                 listMode="SCROLLVIEW"
-                zIndex={2000}
-                zIndexInverse={2000}
+                zIndex={3000}
+                zIndexInverse={3000}
                 placeholder="Shelter Status"
                 open={openSheter}
                 value={shelterValue}
@@ -180,8 +189,8 @@ export default function OldMemeberRegistration() {
                 setOpen={setOpenShelter}
                 setValue={setShelterValue}
                 setItems={setShelterStatusOptions}
+                onOpen={() => setFieldTouched("shelterStatus", true)}
                 onChangeValue={(value) => {
-                  setFieldTouched("shelterStatus", true);
                   setFieldValue("shelterStatus", value);
                 }}
                 style={[
@@ -210,8 +219,8 @@ export default function OldMemeberRegistration() {
 
               <DropDownPicker
                 listMode="SCROLLVIEW"
-                zIndex={3000}
-                zIndexInverse={3000}
+                zIndex={2000}
+                zIndexInverse={2000}
                 placeholder="Marital Status"
                 open={openMarital}
                 value={maritalValue}
@@ -219,8 +228,8 @@ export default function OldMemeberRegistration() {
                 setOpen={setOpenMarital}
                 setValue={setMaritalValue}
                 setItems={setMaritalStatusOptions}
+                onOpen={() => setFieldTouched("maritalStatus", true)}
                 onChangeValue={(value) => {
-                  setFieldTouched("maritalStatus", true);
                   setFieldValue("maritalStatus", value);
                 }}
                 style={[
