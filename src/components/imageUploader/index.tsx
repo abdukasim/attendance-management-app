@@ -16,13 +16,19 @@ interface ImageUploaderProps {
     isTouched?: boolean | undefined,
     shouldValidate?: boolean | undefined
   ) => void;
+  setFieldError: (field: string, message: string | undefined) => void;
   imageUri?: string; // TODO allow changing image in benefeciaries screen
+  editable: boolean;
+  error?: any;
 }
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   setFieldTouched,
   setFieldValue,
+  setFieldError,
   imageUri,
+  editable,
+  error,
 }) => {
   const [image, setImage] = useState(imageUri);
 
@@ -37,22 +43,32 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setFieldValue("image", result.assets[0].uri);
+      const imageSizeInMB = result.assets[0]?.fileSize
+        ? result.assets[0].fileSize / 1024 / 1024
+        : 0;
+
+      if (imageSizeInMB > 5) {
+        setFieldError("image", "The selected image is too large");
+      } else {
+        setImage(result.assets[0].uri);
+        setFieldValue("image", result.assets[0].uri);
+      }
     }
   };
 
   return (
-    <View style={styles.imageContainer}>
+    <View style={error ? styles.imageContainerError : styles.imageContainer}>
       {image && <Img source={{ uri: image }} width="100%" height="100%" />}
-      <View style={styles.uploadBtnContainer}>
-        <TouchableOpacity onPress={pickImage} style={styles.uploadBtn}>
-          <FontAwesome name="camera" size={20} color="black" />
-          <Text style={{ marginLeft: 6 }}>
-            {image ? "Edit" : "Upload"} Image
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {editable && (
+        <View style={styles.uploadBtnContainer}>
+          <TouchableOpacity onPress={pickImage} style={styles.uploadBtn}>
+            <FontAwesome name="camera" size={20} color="black" />
+            <Text style={{ marginLeft: 6 }}>
+              {image ? "Edit" : "Upload"} Image
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
