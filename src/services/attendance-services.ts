@@ -15,8 +15,8 @@ export default class attendance {
           textColor: theme.colors.background,
         });
       return true;
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error(error.stack);
       Toast.show("Status Change Failed!", {
         duration: Toast.durations.LONG,
         position: 50,
@@ -56,8 +56,15 @@ export default class attendance {
     setMessage: any
   ) {
     const formData = new FormData();
+    formData.append("image", {
+      name: values.image?.split("/").pop(),
+      uri: values.image,
+      type: "image/jpg",
+    } as unknown as Blob);
     Object.keys(values).forEach((key) => {
-      formData.append(key, values[key as keyof UpdateBeneficiaryRequest]);
+      if (key !== "image") {
+        formData.append(key, values[key as keyof UpdateBeneficiaryRequest]);
+      }
     });
     try {
       const res = url.put("/beneficiary-list", formData, {
