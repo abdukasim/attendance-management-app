@@ -58,9 +58,15 @@ export function ReportScreen() {
     <html>
       <head>
         <style>
+        h2{
+        color: #0b77c2;
+        }
           table {
             border-collapse: collapse;
             width: 100%;
+          }
+          th {
+        color: #0b77c2;
           }
           th, td {
             text-align: left;
@@ -71,7 +77,7 @@ export function ReportScreen() {
       </head>
       <body>
       <div>
-        <img src="${API_URL}/assets/imgs/logo.png" alt="Muntaha Foundation" width="250" height="auto" />
+        <img src="${API_URL}/assets/imgs/logo.png" alt="Muntaha Foundation" width="150" height="auto" />
       </div>
 
         <h2>Attendance Report</h2>
